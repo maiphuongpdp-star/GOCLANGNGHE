@@ -87,11 +87,22 @@ if st.button("Lắng nghe & Gợi ý cách giải quyết", type="primary"):
     else:
         with st.spinner("Đang lắng nghe và suy ngẫm cùng bạn..."):
             try:
-                response = client.models.generate_content(
-                   model="gemini-2.0-flash",
-                    contents=user_question,
-                    config={"system_instruction": SYSTEM_PROMPT},
-                )
+                import time
+
+response = None
+for attempt in range(3):
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=user_question,
+            config={"system_instruction": SYSTEM_PROMPT},
+        )
+        break
+    except Exception as err:
+        if "503" in str(err) and attempt < 2:
+            time.sleep(2)
+            continue
+        raise err
 
                 # Tăng số lượt hỏi
                 stats["total_questions"] += 1
