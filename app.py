@@ -1,5 +1,6 @@
 import json
 import os
+import time
 import streamlit as st
 from google import genai
 
@@ -10,7 +11,7 @@ st.set_page_config(
     layout="centered",
 )
 
-# 1. Quản lý Thống kê (Chỉ lưu con số, KHÔNG lưu nội dung câu hỏi hay thông tin học sinh)
+# 1. Quản lý Thống kê (Chỉ lưu con số, KHÔNG lưu nội dung câu hỏi hay danh tính)
 STATS_FILE = "stats.json"
 
 
@@ -34,7 +35,7 @@ def save_stats(stats):
 
 stats = load_stats()
 
-# 2. BỘ NGUYÊN TẮC SƯ PHẠM CỐT LÕI (Thay thế cho kho tình huống tĩnh)
+# 2. Bộ nguyên tắc sư phạm cốt lõi
 SYSTEM_PROMPT = """
 Bạn là "Góc Lắng Nghe" – người bạn đồng hành tâm lý học đường ấm áp, nhân văn và đáng tin cậy dành cho học sinh THCS Phan Đình Phùng.
 
@@ -86,34 +87,31 @@ if st.button("Lắng nghe & Gợi ý cách giải quyết", type="primary"):
         )
     else:
         with st.spinner("Đang lắng nghe và suy ngẫm cùng bạn..."):
-            try:
-                import time
+            response = None
+            last_error = None
+            for attempt in range(3):
+                try:
+                    response = client.models.generate_content(
+                        model="gemini-3.8-flash",
+                        contents=user_question,
+                        config={"system_instruction": SYSTEM_PROMPT},
+                    )
+                    break
+                except Exception as err:
+                    last_error = err
+                    if "503" in str(err) and attempt < 2:
+                        time.sleep(2)
+                        continue
+                    break
 
-response = None
-for attempt in range(3):
-    try:
-        response = client.models.generate_content(
-            model="gemini-3.8-flash",
-            contents=user_question,
-            config={"system_instruction": SYSTEM_PROMPT},
-        )
-        break
-    except Exception as err:
-        if "503" in str(err) and attempt < 2:
-            time.sleep(2)
-            continue
-        raise err
-
-                # Tăng số lượt hỏi
+            if response:
                 stats["total_questions"] += 1
                 save_stats(stats)
-
-                # Hiển thị câu trả lời
                 st.markdown("### 💬 Lời nhắn gửi đến bạn:")
                 st.markdown(response.text)
                 st.session_state["has_response"] = True
-            except Exception as e:
-                st.error(f"Đã có lỗi xảy ra: {e}")
+            else:
+                st.error(f"Đã có lỗi xảy ra: {last_error}")
 
 # 4. Đánh giá chất lượng ẩn danh
 if st.session_state.get("has_response", False):
