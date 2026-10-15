@@ -194,7 +194,7 @@ if st.button("Lắng nghe & Cho em lời khuyên", type="primary"):
                         contents=user_question,
                         config={
                             "system_instruction": SYSTEM_PROMPT,
-                            "max_output_tokens": 1000,
+                            "max_output_tokens": 2500,
                             "temperature": 0.6,
                         },
                     )
@@ -223,18 +223,39 @@ if st.session_state.get("has_new_reply", False):
     part2 = ""
     part3 = ""
 
-    if "[PHAN_1:" in reply_text and "[PHAN_2:" in reply_text and "[PHAN_3:" in reply_text:
+    if "[PHAN_1:" in reply_text and "[PHAN_2:" in reply_text:
         try:
-            p1_raw = reply_text.split("[PHAN_1:")[1].split("[PHAN_2:")[0]
-            p2_raw = reply_text.split("[PHAN_2:")[1].split("[PHAN_3:")[0]
-            p3_raw = reply_text.split("[PHAN_3:")[1]
+            # Tách phần 1
+            p1_split = reply_text.split("[PHAN_1:")[1]
+            part1 = p1_split.split("[PHAN_2:")[0].replace("THẤU HIỂU & GỌI TÊN CẢM XÚC]", "").strip()
 
-            part1 = p1_raw.replace("THẤU HIỂU & GỌI TÊN CẢM XÚC]", "").strip()
-            part2 = p2_raw.replace("GÓC NHÌN ĐA CHIỀU]", "").strip()
-            part3 = p3_raw.replace("KẾ HOẠCH HÀNH ĐỘNG VĂN MINH]", "").strip()
+            # Tách phần 2 và phần 3
+            if "[PHAN_3:" in p1_split:
+                p2_split = p1_split.split("[PHAN_2:")[1]
+                part2 = p2_split.split("[PHAN_3:")[0].replace("GÓC NHÌN ĐA CHIỀU]", "").strip()
+                part3 = p2_split.split("[PHAN_3:")[1].replace("KẾ HOẠCH HÀNH ĐỘNG VĂN MINH]", "").strip()
+            else:
+                part2 = p1_split.split("[PHAN_2:")[1].replace("GÓC NHÌN ĐA CHIỀU]", "").strip()
         except Exception:
             part1 = reply_text
     else:
+        part1 = reply_text
+
+    # Tạo 3 Tab hiển thị trực quan
+    if part1 and part2:
+        ans_tab1, ans_tab2, ans_tab3 = st.tabs([
+            "❤️ 1. Thấu hiểu cảm xúc",
+            "🔍 2. Góc nhìn đa chiều",
+            "🧭 3. Kế hoạch hành động",
+        ])
+        with ans_tab1:
+            st.markdown(part1)
+        with ans_tab2:
+            st.markdown(part2 if part2 else "Đang cập nhật...")
+        with ans_tab3:
+            st.markdown(part3 if part3 else "Đang cập nhật...")
+    else:
+        st.markdown(reply_text)    else:
         part1 = reply_text
 
     if part2 and part3:
