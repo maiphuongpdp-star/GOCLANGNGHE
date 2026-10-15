@@ -179,27 +179,36 @@ if st.button("Lắng nghe & Cho em lời khuyên", type="primary"):
         st.error("Chưa cấu hình API Key. Vui lòng kiểm tra lại mục Secrets trên Streamlit Cloud.")
     else:
         with st.spinner("Chuyên gia đang suy ngẫm để tìm hướng giải quyết tốt nhất cho em..."):
-            try:
-                response = client.models.generate_content(
-                    model="gemini-3.8-flash",
-                    contents=user_question,
-                    config={
-                        "system_instruction": SYSTEM_PROMPT,
-                        "max_output_tokens": 1000,
-                        "temperature": 0.6,
-                    },
-                )
+            candidate_models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro", "gemini-3.8-flash"]
+            response = None
+            last_err = None
 
-                # Ghi nhận thống kê ẩn danh
+            for mod in candidate_models:
+                try:
+                    response = client.models.generate_content(
+                        model=mod,
+                        contents=user_question,
+                        config={
+                            "system_instruction": SYSTEM_PROMPT,
+                            "max_output_tokens": 1000,
+                            "temperature": 0.6,
+                        },
+                    )
+                    if response and response.text:
+                        break
+                except Exception as err:
+                    last_err = err
+                    continue
+
+            if response and response.text:
                 stats["total_questions"] += 1
                 stats["topics"][selected_topic] = stats["topics"].get(selected_topic, 0) + 1
                 save_stats(stats)
 
                 st.session_state["raw_response"] = response.text
                 st.session_state["has_new_reply"] = True
-
-            except Exception as e:
-                st.error(f"Đã có lỗi xảy ra: {e}")
+            else:
+                st.error(f"Máy chủ đang bận xử lý nhiều lượt truy cập cùng lúc, em vui lòng bấm gửi lại sau vài giây nhé! (Chi tiết: {last_err})")
 
 # TÍNH NĂNG 3: HIỂN THỊ PHẢN HỒI GÓC NHÌN 3 CHIỀU
 if st.session_state.get("has_new_reply", False):
