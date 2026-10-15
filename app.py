@@ -11,6 +11,12 @@ st.set_page_config(
     layout="wide",
 )
 
+# Khởi tạo trạng thái hội thoại và phản hồi
+if "chat_history" not in st.session_state:
+    st.session_state["chat_history"] = []
+if "show_follow_up" not in st.session_state:
+    st.session_state["show_follow_up"] = False
+
 # 1. QUẢN LÝ DỮ LIỆU THỐNG KÊ MINH BẠCH (Chỉ lưu con số nhóm chủ đề, KHÔNG lưu nội dung)
 STATS_FILE = "stats.json"
 
@@ -63,11 +69,11 @@ Bạn là một Chuyên gia Tâm lý Học đường giàu kinh nghiệm, chuyê
 NGUYÊN TẮC THAM VẤN CỐT LÕI:
 1. Giọng điệu: Ấm áp, kiên nhẫn, bình đẳng, không phán xét, sử dụng đại từ xưng hô thân mật: "Thầy/Cô chuyên gia" và "Em" (hoặc "Mình" và "Bạn").
 2. Tuyệt đối KHÔNG hỏi tên, tuổi, lớp, địa chỉ hoặc bất kỳ thông tin nhận dạng cá nhân nào.
-3. CẤU TRÚC PHẢN HỒI BẮT BUỘC THEO 3 PHẦN ĐÁNH DẤU CHÍNH XÁC NHƯ SAU ĐỂ HỆ THỐNG HIỂN THỊ THÀNH THẺ:
+3. Nếu là lượt chia sẻ đầu tiên, CẤU TRÚC PHẢN HỒI BẮT BUỘC THEO 3 PHẦN ĐÁNH DẤU CHÍNH XÁC NHƯ SAU:
 
 [PHAN_1: THẤU HIỂU & GỌI TÊN CẢM XÚC]
 - Gọi tên chính xác cảm xúc em đang trải qua (ấm ức, tổn thương, lo sợ, tủi thân hay tức giận).
-- Thừa nhận và bình thường hóa cảm xúc đó (Ví dụ: "Cảm thấy tức giận khi bị bạn bè nói xấu là phản ứng rất tự nhiên của bất kỳ ai...").
+- Thừa nhận và bình thường hóa cảm xúc đó.
 
 [PHAN_2: GÓC NHÌN ĐA CHIỀU]
 - Giúp em nhìn sự việc dưới lăng kính khách quan, tách biệt giữa "hành vi của bạn" và "giá trị bản thân em".
@@ -77,6 +83,8 @@ NGUYÊN TẮC THAM VẤN CỐT LÕI:
 - Đưa ra 2 đến 3 bước hành động rất cụ thể, khả thi và giữ vững lòng tự trọng.
 - Hướng dẫn câu nói mẫu nếu em cần đối thoại trực tiếp để đặt ranh giới.
 - Nhắc nhở tìm đến sự trợ giúp nếu tình huống vượt quá khả năng tự giải quyết.
+
+4. Nếu là câu hỏi tiếp nối khi em còn bối rối: Hãy tập trung trả lời thẳng vào điều em đang băn khoăn, diễn giải từng bước tỉ mỉ hơn, đưa ra ví dụ cụ thể hoặc câu nói mẫu chi tiết để em dễ thực hành.
 """
 
 # 3. GIAO DIỆN CHÍNH
@@ -88,7 +96,7 @@ st.info(
     "🔒 **Cam kết bảo mật tuyệt đối:** Ứng dụng không yêu cầu đăng nhập, không ghi nhận danh tính, không lưu lại nội dung tin nhắn và không gửi về cho giáo viên."
 )
 
-# TÍNH NĂNG 2: TRẠM DỪNG BÌNH TĨNH & GIẢI TỎA CẢM XÚC TỨC THÌ
+# TÍNH NĂNG: TRẠM DỪNG BÌNH TĨNH & GIẢI TỎA CẢM XÚC TỨC THÌ
 with st.expander("🧘 Trạm Dừng Bình Tĩnh (Giải tỏa cơn bốc đồng tức thì)", expanded=False):
     tab_breath, tab_tear = st.tabs(["🌬️ Hít thở sâu 4-7-8", "🗑️ Viết rồi xé bỏ"])
 
@@ -123,7 +131,7 @@ with st.expander("🧘 Trạm Dừng Bình Tĩnh (Giải tỏa cơn bốc đồn
 
 st.divider()
 
-# KHUNG NHẬP TÌNH HUỐNG THAM VẤN
+# KHUNG NHẬP TÌNH HUỐNG THAM VẤN BAN ĐẦU
 col_input1, col_input2 = st.columns([2, 1])
 
 with col_input1:
@@ -131,6 +139,7 @@ with col_input1:
         "Em đang gặp chuyện gì hoặc có điều gì bận lòng cần chuyên gia lắng nghe?",
         placeholder="Ví dụ: Bạn thân nói xấu sau lưng em; Em bị các bạn tẩy chay không rõ lý do; Em rất muốn đánh bạn vì bị trêu chọc ngoại hình...",
         height=130,
+        key="main_input",
     )
 
 with col_input2:
@@ -146,7 +155,7 @@ with col_input2:
         ],
     )
 
-# TÍNH NĂNG 4: BỘ LỌC BÁO ĐỘNG ĐỎ (SOS ALERT)
+# TÍNH NĂNG: BỘ LỌC BÁO ĐỘNG ĐỎ (SOS ALERT)
 CRITICAL_KEYWORDS = [
     "tự tử", "tự hại", "cắt tay", "chết đi", "đánh hội đồng",
     "quay clip", "lột đồ", "đe dọa giết", "mang dao", "vũ khí",
@@ -164,10 +173,32 @@ if is_emergency:
         """
     )
 
-# NÚT GỬI CÂU HỎI
+# KẾT NỐI API & HÀM GỌI DỰ PHÒNG
 api_key = os.environ.get("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY", "")
 client = genai.Client(api_key=api_key) if api_key else None
 
+
+def call_gemini(prompt_text):
+    candidate_models = ["gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash"]
+    for mod in candidate_models:
+        try:
+            res = client.models.generate_content(
+                model=mod,
+                contents=prompt_text,
+                config={
+                    "system_instruction": SYSTEM_PROMPT,
+                    "max_output_tokens": 2500,
+                },
+            )
+            if res and res.text:
+                return res.text, None
+        except Exception as err:
+            time.sleep(1)
+            last_err = err
+    return None, last_err
+
+
+# XỬ LÝ GỬI CÂU HỎI BAN ĐẦU
 if st.button("Lắng nghe & Cho em lời khuyên", type="primary"):
     if not user_question.strip():
         st.warning("Em hãy viết một vài dòng về tình huống của mình nhé.")
@@ -175,46 +206,29 @@ if st.button("Lắng nghe & Cho em lời khuyên", type="primary"):
         st.error("Chưa cấu hình API Key. Vui lòng kiểm tra lại mục Secrets trên Streamlit Cloud.")
     else:
         with st.spinner("Chuyên gia đang suy ngẫm để tìm hướng giải quyết tốt nhất cho em..."):
-            candidate_models = ["gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.8-flash"]
-            response = None
-            last_err = None
-
-            for mod in candidate_models:
-                try:
-                    response = client.models.generate_content(
-                        model=mod,
-                        contents=user_question,
-                        config={
-                            "system_instruction": SYSTEM_PROMPT,
-                            "max_output_tokens": 2500,
-                        },
-                    )
-                    if response and response.text:
-                        break
-                except Exception as err:
-                    last_err = err
-                    time.sleep(1)
-                    continue
-
-            if response and response.text:
+            reply, err = call_gemini(user_question)
+            if reply:
                 stats["total_questions"] += 1
                 stats["topics"][selected_topic] = stats["topics"].get(selected_topic, 0) + 1
                 save_stats(stats)
 
-                st.session_state["raw_response"] = response.text
+                # Reset lại lịch sử cho tình huống mới
+                st.session_state["chat_history"] = [
+                    {"role": "user", "text": user_question},
+                    {"role": "model", "text": reply},
+                ]
+                st.session_state["raw_response"] = reply
                 st.session_state["has_new_reply"] = True
+                st.session_state["show_follow_up"] = False
             else:
-                st.error(f"Máy chủ đang bận xử lý nhiều lượt truy cập cùng lúc, em vui lòng bấm gửi lại sau vài giây nhé! (Chi tiết: {last_err})")
+                st.error(f"Máy chủ đang bận xử lý nhiều lượt truy cập, em vui lòng bấm gửi lại sau vài giây nhé! (Chi tiết: {err})")
 
-# TÍNH NĂNG 3: HIỂN THỊ PHẢN HỒI GÓC NHÌN 3 CHIỀU
+# HIỂN THỊ PHẢN HỒI GÓC NHÌN 3 CHIỀU
 if st.session_state.get("has_new_reply", False):
     reply_text = st.session_state.get("raw_response", "")
     st.markdown("### 💬 Lời gửi gắm từ Chuyên gia Tâm lý:")
 
-    part1 = ""
-    part2 = ""
-    part3 = ""
-
+    part1, part2, part3 = "", "", ""
     if "[PHAN_1:" in reply_text and "[PHAN_2:" in reply_text:
         try:
             p1_split = reply_text.split("[PHAN_1:")[1]
@@ -246,7 +260,7 @@ if st.session_state.get("has_new_reply", False):
     else:
         st.markdown(reply_text)
 
-    # KHẢO SÁT CHẤT LƯỢNG ẨN DANH
+    # KHẢO SÁT CHẤT LƯỢNG & ĐIỀU HƯỚNG BỐI RỐI
     st.divider()
     st.write("**Lời khuyên này có giúp ích cho em không?**")
     f_col1, f_col2 = st.columns(2)
@@ -255,15 +269,58 @@ if st.session_state.get("has_new_reply", False):
             stats["helpful_yes"] += 1
             save_stats(stats)
             st.success("Cảm ơn em! Chúc em luôn tự tin và bình an.")
-            st.session_state["has_new_reply"] = False
+            st.session_state["show_follow_up"] = False
+
     with f_col2:
         if st.button("👎 Em vẫn còn thấy bối rối"):
             stats["helpful_no"] += 1
             save_stats(stats)
-            st.info("Đừng nản lòng nhé, em có thể thử diễn đạt rõ hơn hoặc tìm người lớn tin cậy để chia sẻ trực tiếp!")
-            st.session_state["has_new_reply"] = False
+            st.session_state["show_follow_up"] = True
 
-# TÍNH NĂNG 5: SIDEBAR MINH BẠCH BỨC TRANH TÂM LÝ HỌC ĐƯỜNG
+    # KHUNG NHẬP CÂU HỎI TIẾP NỐI (CHAT TIẾP NỐI LIỀN MẠCH)
+    if st.session_state.get("show_follow_up", False):
+        st.info("💡 **Đừng lo lắng nhé!** Em hãy viết rõ hơn điều gì làm em còn lo lắng hoặc chưa biết cách xử lý, chuyên gia sẽ giải thích kĩ hơn cùng em.")
+        
+        follow_up_input = st.text_area(
+            "Em muốn hỏi kỹ hơn điều gì?",
+            placeholder="Ví dụ: Em rất sợ khi nói chuyện trực tiếp bạn ấy sẽ quát lại em; Em không biết nói câu mở đầu thế nào...",
+            key="follow_up_box",
+            height=100,
+        )
+
+        if st.button("Gửi tâm sự tiếp nối 💬", type="secondary"):
+            if not follow_up_input.strip():
+                st.warning("Em hãy viết câu hỏi tiếp nối nhé.")
+            else:
+                with st.spinner("Chuyên gia đang đọc tiếp tâm sự của em..."):
+                    # Ghép nối ngữ cảnh trước đó để AI hiểu liền mạch
+                    context_prompt = (
+                        f"TÌNH HUỐNG TRƯỚC ĐÓ CỦA HỌC SINH:\n{st.session_state['chat_history'][0]['text']}\n\n"
+                        f"LỜI KHUYÊN BAN ĐẦU CỦA CHUYÊN GIA:\n{st.session_state['chat_history'][1]['text']}\n\n"
+                        f"HỌC SINH VẪN CÒN BỐI RỐI VÀ HỎI THÊM:\n{follow_up_input}\n\n"
+                        f"Hãy trả lời trực tiếp vào khúc mắc này của học sinh một cách gần gũi, cụ thể, từng bước một."
+                    )
+                    sub_reply, sub_err = call_gemini(context_prompt)
+                    if sub_reply:
+                        st.session_state["chat_history"].append({"role": "user", "text": follow_up_input})
+                        st.session_state["chat_history"].append({"role": "model", "text": sub_reply})
+                    else:
+                        st.error(f"Chưa gửi được, em thử bấm lại nhé! (Lỗi: {sub_err})")
+
+    # Hiển thị các lượt trò chuyện tiếp nối bên dưới nếu có
+    if len(st.session_state["chat_history"]) > 2:
+        st.markdown("---")
+        st.subheader("🗨️ Cuộc trò chuyện mở rộng:")
+        for idx in range(2, len(st.session_state["chat_history"]), 2):
+            u_msg = st.session_state["chat_history"][idx]["text"]
+            m_msg = st.session_state["chat_history"][idx + 1]["text"]
+
+            with st.chat_message("user"):
+                st.write(u_msg)
+            with st.chat_message("assistant"):
+                st.write(m_msg)
+
+# TÍNH NĂNG: SIDEBAR MINH BẠCH BỨC TRANH TÂM LÝ HỌC ĐƯỜNG
 with st.sidebar:
     st.header("📊 Bức Tranh Hoạt Động")
     st.caption("Dữ liệu thống kê hoàn toàn ẩn danh, phục vụ đánh giá thực tiễn của dự án.")
