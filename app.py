@@ -179,7 +179,11 @@ if st.button("Lắng nghe & Cho em lời khuyên", type="primary"):
         st.error("Chưa cấu hình API Key. Vui lòng kiểm tra lại mục Secrets trên Streamlit Cloud.")
     else:
         with st.spinner("Chuyên gia đang suy ngẫm để tìm hướng giải quyết tốt nhất cho em..."):
-            candidate_models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro", "gemini-3.8-flash"]
+            candidate_models = [
+    "gemini-3.6-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3.8-flash",
+]
             response = None
             last_err = None
 
