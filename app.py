@@ -14,87 +14,153 @@ st.set_page_config(
 )
 
 
-# CÀI ĐẶT ẢNH NỀN SÂN TRƯỜNG MỜ NHẸ (HIỂN THỊ RÕ NÉT & DỊU MẮT)
-def set_bg():
+# CÀI ĐẶT ẢNH NỀN VÀ TÙY CHỈNH MÀU SẮC GIAO DIỆN CHUYÊN NGHIỆP
+def set_styling():
   bg_file = (
       "school_bg.png"
       if os.path.exists("school_bg.png")
       else ("school_bg.jpg" if os.path.exists("school_bg.jpg") else None)
   )
+  bg_css = ""
   if bg_file:
     with open(bg_file, "rb") as f:
       data = f.read()
     b64 = base64.b64encode(data).decode()
-    st.markdown(
-        f"""
-            <style>
-            .stApp {{
-                background: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45)), url("data:image/png;base64,{b64}");
-                background-size: cover;
-                background-position: center;
-                background-attachment: fixed;
-            }}
-            /* Tăng tương phản nền trắng mờ cho các khối nội dung để dễ đọc chữ */
-            .main .block-container {{
-                background: rgba(255, 255, 255, 0.78);
-                padding: 2rem;
-                border-radius: 20px;
-                box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.08);
-                backdrop-filter: blur(4px);
-                -webkit-backdrop-filter: blur(4px);
-                margin-top: 1.5rem;
-                margin-bottom: 2rem;
-            }}
-            /* Nút khẩn cấp Safe Haven cách điệu */
-            div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) {{
-                background: linear-gradient(135deg, #fff5f5 0%, #ffe3e3 100%) !important;
-                border: 2px solid #ff6b6b !important;
-                border-radius: 16px !important;
-                box-shadow: 0 4px 15px rgba(238, 82, 83, 0.25) !important;
-            }}
-            /* Trạm dừng bình tĩnh */
-            div[data-testid="stExpander"]:has(div:contains("Trạm Dừng Bình Tĩnh")) {{
-                background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
-                border: 2px solid #48bb78 !important;
-                border-radius: 16px !important;
-                box-shadow: 0 4px 12px rgba(72, 187, 120, 0.15) !important;
-            }}
-            /* Các nút cảm xúc bo tròn nổi bật */
-            .stButton > button {{
-                border-radius: 14px !important;
-                border: 1px solid #cce3de !important;
-                background: #ffffff !important;
-                color: #2d3748 !important;
-                font-weight: 600 !important;
-                padding: 0.6rem 1rem !important;
-                transition: all 0.25s ease !important;
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04) !important;
-            }}
-            .stButton > button:hover {{
-                transform: translateY(-2px) !important;
-                box-shadow: 0 6px 14px rgba(46, 204, 113, 0.25) !important;
-                border-color: #2ecc71 !important;
-                color: #27ae60 !important;
-            }}
-            /* Nút gửi gắm chính */
-            .stButton > button[kind="primary"] {{
-                background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important;
-                color: white !important;
-                border: none !important;
-                box-shadow: 0 4px 14px rgba(39, 174, 96, 0.35) !important;
-            }}
-            .stButton > button[kind="primary"]:hover {{
-                background: linear-gradient(135deg, #27ae60 0%, #219653 100%) !important;
-                color: white !important;
-                box-shadow: 0 6px 18px rgba(39, 174, 96, 0.45) !important;
-            }}
-            </style>
-            """,
-        unsafe_allow_html=True,
-    )
+    bg_css = f"""
+            background: linear-gradient(rgba(240, 244, 248, 0.65), rgba(240, 244, 248, 0.65)), url("data:image/png;base64,{b64}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        """
+
+  st.markdown(
+      f"""
+        <style>
+        .stApp {{
+            {bg_css}
+        }}
+        
+        /* Khung nội dung chính màu trắng nổi bật, khử hẳn nền mờ gây lóa */
+        .main .block-container {{
+            background: rgba(255, 255, 255, 0.94);
+            padding: 2.2rem;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+        }}
+
+        /* Ép màu chữ chính sang màu đen đậm rõ nét */
+        h1, h2, h3, h4, h5, p, span, label, .stMarkdown {{
+            color: #1a202c !important;
+            font-weight: 500;
+        }}
+        
+        /* Đoạn trích dẫn chào mừng của cô Tư Phùng */
+        blockquote {{
+            background-color: #f0fff4 !important;
+            border-left: 5px solid #38a169 !important;
+            color: #22543d !important;
+            font-size: 1.05rem !important;
+            padding: 12px 18px !important;
+            border-radius: 8px !important;
+            margin: 10px 0 !important;
+        }}
+
+        /* KHUNG KHẨN CẤP: VÒNG TAY CHE CHỞ */
+        div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) {{
+            background: linear-gradient(135deg, #ff4757 0%, #ee5253 100%) !important;
+            border: none !important;
+            border-radius: 16px !important;
+            box-shadow: 0 6px 20px rgba(238, 82, 83, 0.4) !important;
+        }}
+        div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) summary {{
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 1.1rem !important;
+        }}
+        div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) summary:hover {{
+            color: #ffeaa7 !important;
+        }}
+
+        /* KHUNG TRẠM DỪNG BÌNH TĨNH */
+        div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) {{
+            background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%) !important;
+            border: none !important;
+            border-radius: 16px !important;
+            box-shadow: 0 5px 18px rgba(16, 172, 132, 0.3) !important;
+            margin-top: 15px !important;
+        }}
+        div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) summary {{
+            color: white !important;
+            font-weight: bold !important;
+            font-size: 1.05rem !important;
+        }}
+        div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) summary:hover {{
+            color: #f1f2f6 !important;
+        }}
+
+        /* NÚT 1: BUỒN & TỦI THÂN (XANH DƯƠNG BIỂN) */
+        div[data-testid="column"]:nth-of-type(1) .stButton > button {{
+            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%) !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-weight: bold !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.35) !important;
+        }}
+
+        /* NÚT 2: SỢ HÃI & ĐE DỌA (CAM CHÁY BÁO NGUY) */
+        div[data-testid="column"]:nth-of-type(2) .stButton > button {{
+            background: linear-gradient(135deg, #d35400 0%, #e67e22 100%) !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-weight: bold !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 12px rgba(211, 84, 0, 0.35) !important;
+        }}
+
+        /* NÚT 3: BẠO LỰC MẠNG (TÍM HOÀNG HÔN) */
+        div[data-testid="column"]:nth-of-type(3) .stButton > button {{
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%) !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-weight: bold !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 12px rgba(142, 68, 173, 0.35) !important;
+        }}
+
+        /* NÚT 4: MUỐN TÂM SỰ (XANH NGỌC MINT) */
+        div[data-testid="column"]:nth-of-type(4) .stButton > button {{
+            background: linear-gradient(135deg, #00b894 0%, #55efc4 100%) !important;
+            color: #2d3436 !important;
+            border: none !important;
+            font-weight: bold !important;
+            border-radius: 14px !important;
+            box-shadow: 0 4px 12px rgba(0, 184, 148, 0.35) !important;
+        }}
+
+        /* NÚT GỬI CHÍNH: XANH LÁ CÂY ĐẬM ĐÀ NỔI BẬT */
+        .stButton > button[kind="primary"] {{
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
+            color: white !important;
+            font-size: 1.1rem !important;
+            padding: 0.65rem 1.8rem !important;
+            border-radius: 14px !important;
+            border: none !important;
+            box-shadow: 0 6px 18px rgba(39, 174, 96, 0.45) !important;
+        }}
+        .stButton > button:hover {{
+            transform: translateY(-2px) !important;
+            filter: brightness(1.08) !important;
+        }}
+        </style>
+        """,
+      unsafe_allow_html=True,
+  )
 
 
-set_bg()
+set_styling()
 
 # ----------------- 1. QUẢN LÝ DỮ LIỆU LƯU TRỮ -----------------
 STATS_FILE = "stats.json"
@@ -166,7 +232,7 @@ if "show_follow_up" not in st.session_state:
 if "selected_emotion_prompt" not in st.session_state:
   st.session_state["selected_emotion_prompt"] = ""
 
-# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG (THCS PHAN ĐÌNH PHÙNG) -----------------
+# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG -----------------
 SYSTEM_PROMPT = """
 Bạn là "Cô Tư Phùng" - Người đồng hành tâm lý học đường ấm áp, nhân hậu và tận tụy của trường THCS Phan Đình Phùng (Thanh Khê, Đà Nẵng).
 
@@ -205,12 +271,16 @@ with st.expander(
     " KHẨN CẤP)",
     expanded=False,
 ):
-  st.error(
-      "🚨 **HỖ TRỢ KHẨN CẤP DÀNH RIÊNG CHO HỌC SINH THCS PHAN ĐÌNH PHÙNG:**\n"
-      "Nếu em đang bị đe dọa đánh nhau, bị chặn đường, hoặc cảm thấy cực kỳ"
-      " hoảng loạn, hãy gọi ngay hoặc chọn vị trí để thầy cô can thiệp lập"
-      " tức:"
+  st.markdown(
+      """
+    <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px;">
+        <h4 style="color: #d63031; margin-top: 0;">🚨 HỖ TRỢ KHẨN CẤP DÀNH CHO HỌC SINH THCS PHAN ĐÌNH PHÙNG:</h4>
+        <p style="color: #2d3436;">Nếu em đang bị đe dọa đánh nhau, bị chặn đường ở cổng trường/nhà xe, hoặc cảm thấy cực kỳ hoảng loạn, hãy gọi ngay cho thầy cô hoặc tổng đài để can thiệp kịp thời:</p>
+    </div>
+    """,
+      unsafe_allow_html=True,
   )
+
   col_hotline1, col_hotline2, col_hotline3 = st.columns(3)
   with col_hotline1:
     st.info(
@@ -277,9 +347,10 @@ with col_welcome:
       " bè hay trên mạng xã hội làm em chưa vui không? Cứ ngồi xuống đây kể cho"
       " Cô Tư Phùng nghe nhé, mọi chuyện rồi sẽ ổn thôi...”*"
   )
-  st.caption(
-      "🔒 **Cam kết bảo mật tuyệt đối:** Ứng dụng không ghi nhận tên tuổi, không"
-      " lưu danh tính, không gửi nội dung cho phụ huynh hay giáo viên bộ môn."
+  st.markdown(
+      "🔒 **Cam kết bảo mật tuyệt đối:** *Ứng dụng không ghi nhận tên tuổi,"
+      " không lưu danh tính, không gửi nội dung cho phụ huynh hay giáo viên bộ"
+      " môn.*"
   )
 
 # TRẠM DỪNG BÌNH TĨNH
@@ -290,7 +361,7 @@ with st.expander(
   with tab_breath:
     st.write(
         "Nếu em đang rất uất ức, tim đập nhanh, hãy thở theo nhịp cùng Cô Tư"
-        " Phùng để không hành động bộc phát nhé:"
+        " Phùng để lấy lại bình tĩnh trước nhé:"
     )
     if st.button("Bắt đầu nhịp thở 4-7-8"):
       box = st.empty()
@@ -304,8 +375,8 @@ with st.expander(
         box.success(f"💨 **THỞ RA** nhẹ nhàng bằng miệng... ({i}s)")
         time.sleep(1)
       box.info(
-          "✨ Tuyệt vời lắm! Cơn giận đã nguôi bớt rồi, giờ mình cùng bình tĩnh"
-          " tìm cách giải quyết nhé."
+          "✨ Tuyệt vời lắm! Cơn giận đã nguôi bớt rồi, giờ mình cùng suy ngẫm"
+          " cách giải quyết nhé."
       )
   with tab_tear:
     st.text_area(
@@ -322,13 +393,12 @@ with st.expander(
 st.markdown("---")
 
 # ----------------- 4. KHÔNG GIAN LỰA CHỌN CẢM XÚC -----------------
-st.markdown("### 🌸 Hôm nay lòng em thấy thế nào?")
+st.markdown("### 🌸 Hôm nay lòng em thấy thế nào? *(Bấm chọn nhanh)*")
 col_e1, col_e2, col_e3, col_e4 = st.columns(4)
 
 with col_e1:
   if st.button(
-      "🌧️ Buồn & Tủi thân\n\n(Bị nói xấu, tẩy chay...)",
-      use_container_width=True,
+      "🌧️ Buồn & Tủi thân\n\n(Bị nói xấu, tẩy chay)", use_container_width=True
   ):
     st.session_state["selected_emotion_prompt"] = (
         "Em đang rất buồn và tủi thân vì bị bạn bè cô lập, nói xấu sau lưng và"
@@ -336,7 +406,7 @@ with col_e1:
     )
 with col_e2:
   if st.button(
-      "⚡ Sợ hãi & Bị đe dọa\n\n(Bị chặn đường, ép tiền...)",
+      "⚡ Sợ hãi & Bị đe dọa\n\n(Bị chặn đường, ép tiền)",
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
@@ -345,8 +415,7 @@ with col_e2:
     )
 with col_e3:
   if st.button(
-      "🌐 Mệt mỏi vì MXH\n\n(Bị bêu xấu trên FB/TikTok...)",
-      use_container_width=True,
+      "🌐 Mệt mỏi vì MXH\n\n(Bị bêu xấu trên mạng)", use_container_width=True
   ):
     st.session_state["selected_emotion_prompt"] = (
         "Em cảm thấy kiệt sức vì bị lập nhóm chat bôi nhọ, cắt ghép ảnh chế dìm"
@@ -354,7 +423,7 @@ with col_e3:
     )
 with col_e4:
   if st.button(
-      "🍃 Muốn tâm sự nhẹ nhàng\n\n(Chuyện học tập, bạn bè...)",
+      "🍃 Muốn tâm sự nhẹ nhàng\n\n(Áp lực điểm số, việc học)",
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
