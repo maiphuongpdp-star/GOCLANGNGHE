@@ -221,7 +221,9 @@ with col_welcome:
   )
 
 # Banner sân trường nếu có
-if os.path.exists("school_bg.jpg"):
+if os.path.exists("school_bg.png"):
+  st.image("school_bg.png", use_container_width=True)
+elif os.path.exists("school_bg.jpg"):
   st.image("school_bg.jpg", use_container_width=True)
 
 # TRẠM DỪNG BÌNH TĨNH
