@@ -21,147 +21,148 @@ def set_styling():
       if os.path.exists("school_bg.png")
       else ("school_bg.jpg" if os.path.exists("school_bg.jpg") else None)
   )
-  bg_css = ""
   if bg_file:
     with open(bg_file, "rb") as f:
       data = f.read()
     b64 = base64.b64encode(data).decode()
-    bg_css = f"""
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
             background: linear-gradient(rgba(240, 244, 248, 0.65), rgba(240, 244, 248, 0.65)), url("data:image/png;base64,{b64}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-        """
-
-  st.markdown(
-      f"""
-        <style>
-        .stApp {{
-            {bg_css}
-        }}
-        .main .block-container {{
-            background: rgba(255, 255, 255, 0.96);
-            padding: 2.2rem;
-            border-radius: 22px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
-        }}
-        
-        /* Chữ toàn bộ trang đậm nét, tương phản tuyệt đối */
-        h1, h2, h3, h4, h5, p, span, label, .stMarkdown, div {{
-            color: #111827 !important;
-            font-weight: 700 !important;
-        }}
-        
-        blockquote {{
-            background-color: #f0fff4 !important;
-            border-left: 6px solid #2ecc71 !important;
-            color: #1b4332 !important;
-            font-size: 1.1rem !important;
-            padding: 14px 20px !important;
-            border-radius: 10px !important;
-            margin: 12px 0 !important;
-            font-weight: 600 !important;
-        }}
-
-        /* KHUNG 1: VÒNG TAY CHE CHỞ (ĐỔ MÀU HỒNG PASTEL - VIỀN ĐỎ ĐẬM) */
-        div[data-testid="stExpander"]:has(summary [data-testid="stMarkdownContainer"]:contains("VÒNG TAY CHE CHỞ")),
-        div[data-testid="stExpander"]:has(summary:contains("VÒNG TAY CHE CHỞ")),
-        details:has(summary:contains("VÒNG TAY CHE CHỞ")) {
-            background-color: #ffe5e5 !important;
-            border: 2.5px solid #ff5252 !important;
-            border-radius: 16px !important;
-            box-shadow: 0 4px 15px rgba(255, 82, 82, 0.25) !important;
-            margin-bottom: 18px !important;
-        }
-        div[data-testid="stExpander"]:has(summary:contains("VÒNG TAY CHE CHỞ")) summary,
-        details:has(summary:contains("VÒNG TAY CHE CHỞ")) summary {
-            background: linear-gradient(135deg, #ffccd2 0%, #ffb3ba 100%) !important;
-            color: #900c3f !important;
-            font-weight: 800 !important;
-            font-size: 1.15rem !important;
-            border-radius: 13px !important;
-            padding: 12px 18px !important;
-        }
-
-        /* KHUNG 2: TRẠM DỪNG BÌNH TĨNH (ĐỔ MÀU XANH BẠC HÀ PASTEL) */
-        div[data-testid="stExpander"]:has(summary [data-testid="stMarkdownContainer"]:contains("TRẠM DỪNG BÌNH TĨNH")),
-        div[data-testid="stExpander"]:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")),
-        details:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")) {
-            background-color: #e8f8f0 !important;
-            border: 2.5px solid #2ecc71 !important;
-            border-radius: 16px !important;
-            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2) !important;
-            margin-top: 15px !important;
-            margin-bottom: 20px !important;
-        }
-        div[data-testid="stExpander"]:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")) summary,
-        details:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")) summary {
-            background: linear-gradient(135deg, #c8f7dc 0%, #b2f2bb 100%) !important;
-            color: #1b4332 !important;
-            font-weight: 800 !important;
-            font-size: 1.1rem !important;
-            border-radius: 13px !important;
-            padding: 12px 18px !important;
-        }
-        }}
-
-        /* CÁC NÚT TÌNH HUỐNG PASTEL - CHỮ ĐẬM SẮC NÉT */
-        div[data-testid="column"]:nth-of-type(1) .stButton > button {{
-            background: #dbeafe !important;
-            color: #1e40af !important;
-            border: 2px solid #93c5fd !important;
-            font-weight: 800 !important;
-            border-radius: 14px !important;
-            box-shadow: 0 3px 8px rgba(30, 64, 175, 0.12) !important;
-        }}
-
-        div[data-testid="column"]:nth-of-type(2) .stButton > button {{
-            background: #ffedd5 !important;
-            color: #9a3412 !important;
-            border: 2px solid #fdba74 !important;
-            font-weight: 800 !important;
-            border-radius: 14px !important;
-            box-shadow: 0 3px 8px rgba(154, 52, 18, 0.12) !important;
-        }}
-
-        div[data-testid="column"]:nth-of-type(3) .stButton > button {{
-            background: #f3e8ff !important;
-            color: #6b21a8 !important;
-            border: 2px solid #d8b4fe !important;
-            font-weight: 800 !important;
-            border-radius: 14px !important;
-            box-shadow: 0 3px 8px rgba(107, 33, 168, 0.12) !important;
-        }}
-
-        div[data-testid="column"]:nth-of-type(4) .stButton > button {{
-            background: #dcfce7 !important;
-            color: #166534 !important;
-            border: 2px solid #86efac !important;
-            font-weight: 800 !important;
-            border-radius: 14px !important;
-            box-shadow: 0 3px 8px rgba(22, 101, 52, 0.12) !important;
-        }}
-
-        .stButton > button:hover {{
-            transform: translateY(-2px) !important;
-            filter: brightness(0.96) !important;
-        }}
-
-        /* NÚT GỬI CHÍNH */
-        .stButton > button[kind="primary"] {{
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            color: #ffffff !important;
-            font-size: 1.15rem !important;
-            padding: 0.75rem 2rem !important;
-            border-radius: 14px !important;
-            border: none !important;
-            box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4) !important;
-            font-weight: 800 !important;
         }}
         </style>
         """,
+        unsafe_allow_html=True,
+    )
+
+  # CSS TÁCH BIỆT HOÀN TOÀN KHÔNG DÙNG F-STRING ĐỂ TRÁNH LỖI NGOẶC NHỌN
+  st.markdown(
+      """
+    <style>
+    .main .block-container {
+        background: rgba(255, 255, 255, 0.96) !important;
+        padding: 2.2rem !important;
+        border-radius: 22px !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 2rem !important;
+    }
+    
+    /* Chữ toàn bộ trang đậm nét, tương phản tuyệt đối */
+    h1, h2, h3, h4, h5, p, span, label, .stMarkdown, div {
+        color: #111827 !important;
+        font-weight: 700 !important;
+    }
+    
+    blockquote {
+        background-color: #f0fff4 !important;
+        border-left: 6px solid #2ecc71 !important;
+        color: #1b4332 !important;
+        font-size: 1.1rem !important;
+        padding: 14px 20px !important;
+        border-radius: 10px !important;
+        margin: 12px 0 !important;
+        font-weight: 600 !important;
+    }
+
+    /* KHUNG 1: VÒNG TAY CHE CHỞ (ĐỔ MÀU HỒNG PASTEL - VIỀN ĐỎ ĐẬM) */
+    .main div[data-testid="stExpander"]:first-of-type,
+    details:first-of-type {
+        background-color: #ffe5e5 !important;
+        border: 2.5px solid #ff5252 !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 15px rgba(255, 82, 82, 0.25) !important;
+        margin-bottom: 18px !important;
+    }
+    .main div[data-testid="stExpander"]:first-of-type summary,
+    details:first-of-type summary {
+        background: linear-gradient(135deg, #ffccd2 0%, #ffb3ba 100%) !important;
+        color: #900c3f !important;
+        font-weight: 800 !important;
+        font-size: 1.15rem !important;
+        border-radius: 13px !important;
+        padding: 12px 18px !important;
+    }
+
+    /* KHUNG 2: TRẠM DỪNG BÌNH TĨNH (ĐỔ MÀU XANH BẠC HÀ PASTEL) */
+    .main div[data-testid="stExpander"]:nth-of-type(2),
+    details:nth-of-type(2) {
+        background-color: #e8f8f0 !important;
+        border: 2.5px solid #2ecc71 !important;
+        border-radius: 16px !important;
+        box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2) !important;
+        margin-top: 15px !important;
+        margin-bottom: 20px !important;
+    }
+    .main div[data-testid="stExpander"]:nth-of-type(2) summary,
+    details:nth-of-type(2) summary {
+        background: linear-gradient(135deg, #c8f7dc 0%, #b2f2bb 100%) !important;
+        color: #1b4332 !important;
+        font-weight: 800 !important;
+        font-size: 1.1rem !important;
+        border-radius: 13px !important;
+        padding: 12px 18px !important;
+    }
+
+    /* CÁC NÚT TÌNH HUỐNG PASTEL - CHỮ ĐẬM SẮC NÉT */
+    div[data-testid="column"]:nth-of-type(1) .stButton > button {
+        background: #dbeafe !important;
+        color: #1e40af !important;
+        border: 2px solid #93c5fd !important;
+        font-weight: 800 !important;
+        border-radius: 14px !important;
+        box-shadow: 0 3px 8px rgba(30, 64, 175, 0.12) !important;
+    }
+
+    div[data-testid="column"]:nth-of-type(2) .stButton > button {
+        background: #ffedd5 !important;
+        color: #9a3412 !important;
+        border: 2px solid #fdba74 !important;
+        font-weight: 800 !important;
+        border-radius: 14px !important;
+        box-shadow: 0 3px 8px rgba(154, 52, 18, 0.12) !important;
+    }
+
+    div[data-testid="column"]:nth-of-type(3) .stButton > button {
+        background: #f3e8ff !important;
+        color: #6b21a8 !important;
+        border: 2px solid #d8b4fe !important;
+        font-weight: 800 !important;
+        border-radius: 14px !important;
+        box-shadow: 0 3px 8px rgba(107, 33, 168, 0.12) !important;
+    }
+
+    div[data-testid="column"]:nth-of-type(4) .stButton > button {
+        background: #dcfce7 !important;
+        color: #166534 !important;
+        border: 2px solid #86efac !important;
+        font-weight: 800 !important;
+        border-radius: 14px !important;
+        box-shadow: 0 3px 8px rgba(22, 101, 52, 0.12) !important;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-2px) !important;
+        filter: brightness(0.96) !important;
+    }
+
+    /* NÚT GỬI CHÍNH */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        color: #ffffff !important;
+        font-size: 1.15rem !important;
+        padding: 0.75rem 2rem !important;
+        border-radius: 14px !important;
+        border: none !important;
+        box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4) !important;
+        font-weight: 800 !important;
+    }
+    </style>
+    """,
       unsafe_allow_html=True,
   )
 
