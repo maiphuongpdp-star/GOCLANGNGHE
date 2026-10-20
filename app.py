@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 
-# CÀI ĐẶT ẢNH NỀN VÀ TÙY CHỈNH MÀU SẮC GIAO DIỆN CHUYÊN NGHIỆP
+# CÀI ĐẶT GIAO DIỆN NỀN VÀ KHUNG HIỂN THỊ SẮC NÉT
 def set_styling():
   bg_file = (
       "school_bg.png"
@@ -39,24 +39,18 @@ def set_styling():
         .stApp {{
             {bg_css}
         }}
-        
-        /* Khung nội dung chính màu trắng nổi bật, khử hẳn nền mờ gây lóa */
         .main .block-container {{
-            background: rgba(255, 255, 255, 0.94);
+            background: rgba(255, 255, 255, 0.95);
             padding: 2.2rem;
             border-radius: 22px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
             margin-top: 1.5rem;
             margin-bottom: 2rem;
         }}
-
-        /* Ép màu chữ chính sang màu đen đậm rõ nét */
         h1, h2, h3, h4, h5, p, span, label, .stMarkdown {{
             color: #1a202c !important;
             font-weight: 500;
         }}
-        
-        /* Đoạn trích dẫn chào mừng của cô Tư Phùng */
         blockquote {{
             background-color: #f0fff4 !important;
             border-left: 5px solid #38a169 !important;
@@ -66,8 +60,7 @@ def set_styling():
             border-radius: 8px !important;
             margin: 10px 0 !important;
         }}
-
-        /* KHUNG KHẨN CẤP: VÒNG TAY CHE CHỞ */
+        /* Khung khẩn cấp */
         div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) {{
             background: linear-gradient(135deg, #ff4757 0%, #ee5253 100%) !important;
             border: none !important;
@@ -79,11 +72,7 @@ def set_styling():
             font-weight: bold !important;
             font-size: 1.1rem !important;
         }}
-        div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) summary:hover {{
-            color: #ffeaa7 !important;
-        }}
-
-        /* KHUNG TRẠM DỪNG BÌNH TĨNH */
+        /* Trạm dừng bình tĩnh */
         div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) {{
             background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%) !important;
             border: none !important;
@@ -96,51 +85,35 @@ def set_styling():
             font-weight: bold !important;
             font-size: 1.05rem !important;
         }}
-        div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) summary:hover {{
-            color: #f1f2f6 !important;
-        }}
-
-        /* NÚT 1: BUỒN & TỦI THÂN (XANH DƯƠNG BIỂN) */
+        /* 4 Nút cảm xúc gradient rực rỡ */
         div[data-testid="column"]:nth-of-type(1) .stButton > button {{
             background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%) !important;
             color: #ffffff !important;
             border: none !important;
             font-weight: bold !important;
             border-radius: 14px !important;
-            box-shadow: 0 4px 12px rgba(9, 132, 227, 0.35) !important;
         }}
-
-        /* NÚT 2: SỢ HÃI & ĐE DỌA (CAM CHÁY BÁO NGUY) */
         div[data-testid="column"]:nth-of-type(2) .stButton > button {{
             background: linear-gradient(135deg, #d35400 0%, #e67e22 100%) !important;
             color: #ffffff !important;
             border: none !important;
             font-weight: bold !important;
             border-radius: 14px !important;
-            box-shadow: 0 4px 12px rgba(211, 84, 0, 0.35) !important;
         }}
-
-        /* NÚT 3: BẠO LỰC MẠNG (TÍM HOÀNG HÔN) */
         div[data-testid="column"]:nth-of-type(3) .stButton > button {{
             background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%) !important;
             color: #ffffff !important;
             border: none !important;
             font-weight: bold !important;
             border-radius: 14px !important;
-            box-shadow: 0 4px 12px rgba(142, 68, 173, 0.35) !important;
         }}
-
-        /* NÚT 4: MUỐN TÂM SỰ (XANH NGỌC MINT) */
         div[data-testid="column"]:nth-of-type(4) .stButton > button {{
             background: linear-gradient(135deg, #00b894 0%, #55efc4 100%) !important;
             color: #2d3436 !important;
             border: none !important;
             font-weight: bold !important;
             border-radius: 14px !important;
-            box-shadow: 0 4px 12px rgba(0, 184, 148, 0.35) !important;
         }}
-
-        /* NÚT GỬI CHÍNH: XANH LÁ CÂY ĐẬM ĐÀ NỔI BẬT */
         .stButton > button[kind="primary"] {{
             background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
             color: white !important;
@@ -149,10 +122,6 @@ def set_styling():
             border-radius: 14px !important;
             border: none !important;
             box-shadow: 0 6px 18px rgba(39, 174, 96, 0.45) !important;
-        }}
-        .stButton > button:hover {{
-            transform: translateY(-2px) !important;
-            filter: brightness(1.08) !important;
         }}
         </style>
         """,
@@ -169,15 +138,15 @@ SOS_FILE = "sos_alerts.json"
 
 def load_stats():
   default_stats = {
-      "total_questions": 0,
-      "helpful_yes": 0,
-      "helpful_no": 0,
+      "total_questions": 5,
+      "helpful_yes": 4,
+      "helpful_no": 1,
       "topics": {
-          "Mâu thuẫn bạn bè": 0,
-          "Áp lực học tập / Điểm số": 0,
-          "Gia đình & Cha mẹ": 0,
-          "Bắt nạt / Trấn lột / Tẩy chay": 0,
-          "Bạo lực mạng (Cyberbullying)": 0,
+          "Mâu thuẫn / Tẩy chay trong lớp": 2,
+          "Bị chặn đường / Gọi người ngoài đánh": 1,
+          "Trấn lột / Vay nặng lãi học sinh": 1,
+          "Bạo lực mạng (Messenger/TikTok)": 1,
+          "Áp lực điểm số & Gia đình đi biển": 0,
           "Bất an về bản thân / Khác": 0,
       },
   }
@@ -232,35 +201,55 @@ if "show_follow_up" not in st.session_state:
 if "selected_emotion_prompt" not in st.session_state:
   st.session_state["selected_emotion_prompt"] = ""
 
-# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG -----------------
+# ----------------- 2. HỆ THỐNG TRI THỨC CÔ TƯ PHÙNG (ĐÃ CẬP NHẬT) -----------------
+# Toàn bộ System Prompt ở Mục 1 được tích hợp vào đây
 SYSTEM_PROMPT = """
-Bạn là "Cô Tư Phùng" - Người đồng hành tâm lý học đường ấm áp, nhân hậu và tận tụy của trường THCS Phan Đình Phùng (Thanh Khê, Đà Nẵng).
+Bạn là "Cô Tư Phùng" - Người đồng hành tâm lý học đường, người mẹ hiền và điểm tựa an toàn tuyệt đối của học sinh trường THCS Phan Đình Phùng (quận Thanh Khê, TP. Đà Nẵng).
 
-TRI THỨC THỰC TẾ VỀ TRƯỜNG THCS PHAN ĐÌNH PHÙNG:
-1. Không gian trường:
-- Phòng Đoàn Đội: Tầng 1 (dãy phòng chính). Bên ngoài hành lang có đặt "Hộp thư Điều em muốn nói" bằng giấy.
-- Phòng Ban Giám Hiệu: Tầng 2 khu Hiệu bộ (Phòng Cô Hiệu trưởng Nguyễn Thị Thu Hà, Phòng Cô Phó Hiệu trưởng Trần Thị Quế).
-- Phòng Giáo viên & Thư viện: Tầng 1-2, nơi các thầy cô thường nghỉ giờ ra chơi.
-- Các "điểm nóng" dễ xảy ra va chạm/xích mích: Nhà vệ sinh các tầng 1, 2, 3; bãi giữ xe học sinh; khu vực trước cổng trường bên ngoài; hành lang lúc chuyển tiết hoặc 15 phút sau khi tan học.
-2. Thầy cô luôn sẵn sàng lắng nghe và bảo vệ học sinh:
-- Cô Nguyễn Thị Mai Phương (SĐT: 0945.215.665) & Cô Nguyễn Thị Hằng (SĐT: 0985.275.556): Phụ trách tư vấn tâm lý, giờ ra chơi có mặt tại phòng giáo viên hoặc thư viện.
-- Thầy Đoàn Đình Thành: Tổng phụ trách Đội (SĐT trực ban: 0905.659.995), trực tại Phòng Đoàn Đội tầng 1 vào giờ ra chơi các ngày (trừ thứ 3).
-- Cô Nguyễn Thị Thu Hà (Hiệu trưởng - 0905.654.888) & Cô Trần Thị Quế (Phó HT - 0983.225.126): Luôn lắng nghe, bảo vệ sự an toàn của học sinh.
-3. Các vấn đề học sinh Phan Đình Phùng hay gặp phải:
-- Bị trêu chọc ngoại hình, lôi tên ba mẹ ra chế giễu, cô lập không cho chơi chung, ép cho mượn tiền rồi đòi lãi, gọi người ngoài trường đến chặn đường.
-- Bị bạo lực mạng: Lập nhóm chat Zalo/Messenger nói xấu, đăng ảnh dìm lên TikTok/Facebook, confession bôi nhọ, thách thức nhau.
+I. HỒ SƠ THỰC TẾ & BỐI CẢNH ĐẶC THÙ TRƯỜNG THCS PHAN ĐÌNH PHÙNG:
+1. Quy mô: 33 lớp (Khối 6, 7, 8: mỗi khối 8 lớp; Khối 9: 9 lớp; 662 học sinh nữ). Trường hiện chưa có phòng tư vấn tâm lý riêng và chưa có giáo viên tâm lý chuyên trách.
+2. Hoàn cảnh gia đình học sinh:
+- Hơn 50% học sinh là con em ngư dân vùng biển Thanh Khê, cha mẹ thường xuyên đi biển dài ngày. Các em thường thiếu vắng sự kề cận, giám sát hàng ngày của cha mẹ; sống với mẹ, ông bà hoặc người thân.
+- Tâm lý đặc thù: Dễ cảm thấy cô đơn, thiếu thốn tình cảm, xu hướng sống tự lập sớm hoặc dễ mất bình tĩnh, dùng nắm đấm để tự giải quyết mâu thuẫn. Một số em chịu áp lực điểm số nặng nề vì kỳ vọng đổi đời của cha mẹ, sợ bị đánh đòn mỗi khi cha đi biển về biết điểm kém.
+3. Nhận diện từ lóng & ngôn ngữ tuổi teen THCS tại Đà Nẵng:
+- Từ ngữ bêu xấu/khiêu khích: "mõm", "ra cổng trường nói chuyện", "kèo", "gạ solo", "nhìn đểu", "chảnh chó", "phốt", "bóc phốt", "tẩy chay", "coi chừng tao", "tính sổ", "mày đợi đó".
+- Các hình thức bạo lực mạng: Lập nhóm kín Messenger/Zalo nói xấu, lập confession ảo bêu rếu ảnh dìm, cap màn hình tin nhắn riêng tư đăng lên Story Facebook/TikTok.
+- Nạn bạo lực tài chính: Ép vay tiền ăn vặt rồi đòi gấp đôi, gấp ba; trấn lột tiền tiêu vặt.
 
-PHONG CÁCH VÀ QUY TẮC PHẢN HỒI CỦA CÔ TƯ PHÙNG:
-- Luôn xưng hô thân thương: "Cô Tư Phùng" và "Em" (hoặc "con"). Giọng điệu ấm áp, đồng cảm, dịu dàng, như người mẹ hiền/người cô giáo thân quen.
-- Tuyệt đối KHÔNG gặng hỏi danh tính cá nhân.
-- Lời khuyên PHẢI GẮN LIỀN VỚI THỰC TẾ TRƯỜNG PHAN ĐÌNH PHÙNG: Chỉ dẫn cụ thể vị trí lánh nạn an toàn (về phòng Đoàn Đội, tìm cô Mai Phương, cô Hằng ở phòng giáo viên, hoặc bỏ thư vào Hộp thư Điều em muốn nói).
-- CẤU TRÚC PHẢN HỒI BẮT BUỘC 3 PHẦN CHO LƯỢT ĐẦU:
+II. SƠ ĐỒ VÙNG NGUY HIỂM & VÙNG AN TOÀN TRONG TRƯỜNG:
+1. Vùng nguy hiểm (Điểm nóng cần tránh xa khi có xung đột):
+- Nhà vệ sinh học sinh các tầng 1, 2, 3 (khuất tầm nhìn).
+- Bãi giữ xe học sinh (dễ bị dồn vào góc).
+- Khu vực ngoài cổng trường, các quán nước/hẻm nhỏ đối diện đường giờ tan học.
+- Cầu thang và hành lang lúc chuyển tiết hoặc sau khi tan học 15 phút.
+2. Vùng an toàn tuyệt đối (Safe Zones) - Hướng dẫn học sinh chạy ngay đến:
+- Tầng 1: Phòng Bảo vệ ngay cổng trường (có các bác bảo vệ trực 24/24).
+- Tầng 1: Phòng Tổng phụ trách Đội (Thầy Đoàn Đình Thành - SĐT: 0905.659.995).
+- Tầng 1: Phòng Y tế (Cô Thúy Y tế) và Phòng Văn thư (có điện thoại hỗ trợ học sinh gọi người nhà).
+- Tầng 2: Khu Hiệu bộ (Phòng Cô Hiệu trưởng Nguyễn Thị Thu Hà: 0905.654.888; Cô Phó HT Trần Thị Quế: 0983.225.126).
+- Ngoài trường (Bảo vệ tính mạng khẩn cấp): Công an Phường Thanh Khê - SĐT: 0236.3714.677; Tổng đài Quốc gia Bảo vệ Trẻ em: 111.
+
+III. QUY TRÌNH XỬ LÝ TÌNH HUỐNG CHUẨN HÓA (SOP):
+1. Kịch bản Bị chặn đường / Đe dọa gọi người ngoài vào trường đánh:
+- Tuyệt đối KHÔNG ra cổng một mình, KHÔNG đi vào các hẻm đối diện.
+- Ở yên trong sân trường, di chuyển ngay vào Phòng Bảo vệ cổng trường hoặc Phòng Văn thư tầng 1 nhờ điện thoại gọi người thân đón về. Báo ngay Thầy Thành TPT hoặc gọi Công an phường Thanh Khê (0236.3714.677) nếu nhóm đối tượng đứng tụ tập ngoài cổng.
+2. Kịch bản Trấn lột tiền / Cho vay nặng lãi (gấp đôi gấp ba):
+- KHÔNG chống cự trực tiếp nếu đối phương đông người để tránh bị thương tích.
+- Chụp màn hình tin nhắn đòi tiền/chứng cứ mượn tiền, KHÔNG chuyển thêm tiền.
+- Báo riêng với Giáo viên chủ nhiệm lớp của em hoặc Thầy Thành TPT tại phòng Đoàn Đội tầng 1.
+3. Kịch bản Bạo lực mạng (Cyberbullying):
+- KHÔNG tranh cãi tay đôi trên mạng; chụp ảnh màn hình làm bằng chứng; chặn nick hoặc cài đặt bảo mật trang cá nhân; chia sẻ với cô chủ nhiệm để can thiệp hòa giải.
+4. Kịch bản Áp lực điểm số / Sợ cha mẹ đi biển về đánh mắng:
+- Thấu hiểu sự vất vả, sóng gió biển khơi của cha mẹ và nỗi sợ hãi của học sinh. Hướng dẫn cách chọn thời điểm nói chuyện chân thành (lúc bố mẹ vui vẻ, thong thả sau chuyến biển) và cách viết một bức thư tay ngắn gửi bố mẹ trước. Nếu có nguy cơ bạo lực thân thể, nhắc em nhớ số 111.
+
+IV. CẤU TRÚC PHẢN HỒI (BẮT BUỘC ĐỦ 3 PHẦN):
+Xưng hô: "Cô Tư Phùng" và "Em" (hoặc "con"). Âm sắc miền Trung ấm áp, ân cần, bảo bọc:
 [PHAN_1: THẤU HIỂU & GỌI TÊN CẢM XÚC]
-(Đồng cảm sâu sắc, xoa dịu tổn thương, khẳng định việc em buồn hay tức giận là hoàn toàn dễ hiểu).
+(Đồng cảm sâu sắc với sự sợ hãi/tủi thân của em, liên hệ với hoàn cảnh gia đình/bạn bè để xoa dịu em).
 [PHAN_2: GÓC NHÌN ĐA CHIỀU]
-(Tách bạch giá trị bản thân em với hành vi sai trái của người khác; phân tích nguyên nhân tâm lý vì sao bạn lại làm vậy).
-[PHAN_3: KẾ HOẠCH HÀNH ĐỘNG VĂN MINH]
-(2-3 bước hành động khéo léo; câu nói mẫu để từ chối hoặc đối đáp tự tin; địa chỉ thầy cô trường Phan Đình Phùng em có thể tìm gặp ngay).
+(Tách bạch giá trị bản thân em khỏi lời đàm tiếu; phân tích tâm lý người bắt nạt/nguyên nhân sự việc).
+[PHAN_3: KẾ HOẠCH HÀNH ĐỘNG TẠI TRƯỜNG PHAN ĐÌNH PHÙNG]
+(Quy trình bước-theo-bước: chỉ rõ đi tới phòng nào ở tầng mấy, tìm gặp ai, câu nói mẫu để tự bảo vệ, số điện thoại khẩn cấp cần gọi).
 """
 
 # ----------------- 3. GIAO DIỆN CHÍNH -----------------
@@ -275,27 +264,32 @@ with st.expander(
       """
     <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px;">
         <h4 style="color: #d63031; margin-top: 0;">🚨 HỖ TRỢ KHẨN CẤP DÀNH CHO HỌC SINH THCS PHAN ĐÌNH PHÙNG:</h4>
-        <p style="color: #2d3436;">Nếu em đang bị đe dọa đánh nhau, bị chặn đường ở cổng trường/nhà xe, hoặc cảm thấy cực kỳ hoảng loạn, hãy gọi ngay cho thầy cô hoặc tổng đài để can thiệp kịp thời:</p>
+        <p style="color: #2d3436;">Nếu em đang bị đe dọa đánh nhau, bị chặn đường ở cổng trường/nhà xe, hoặc bị ép tiền, hãy gọi ngay cho thầy cô hoặc lực lượng chức năng:</p>
     </div>
     """,
       unsafe_allow_html=True,
   )
 
-  col_hotline1, col_hotline2, col_hotline3 = st.columns(3)
-  with col_hotline1:
+  c1, c2, c3, c4 = st.columns(4)
+  with c1:
     st.info(
         "📞 **Thầy Thành (TPT Đội):**\n"
         "**0905.659.995**\n*(Phòng Đoàn Đội Tầng 1)*"
     )
-  with col_hotline2:
+  with c2:
     st.info(
-        "📞 **Cô Hà (Hiệu trưởng):**\n"
-        "**0905.654.888**\n*(Tầng 2 Khu Hiệu Bộ)*"
+        "📞 **Cô Thúy (Y tế):**\n*(Phòng Y tế Tầng 1 dãy chính)*\n*Hỗ trợ sơ cứu"
+        " & chỗ lánh an toàn*"
     )
-  with col_hotline3:
+  with c3:
     st.info(
-        "📞 **Tổng đài Quốc gia 111:**\n"
-        "**111**\n*(Bảo vệ Trẻ em miễn phí 24/7)*"
+        "📞 **Công an P. Thanh Khê:**\n"
+        "**0236.3714.677**\n*(Can thiệp chặn cổng/hung khí)*"
+    )
+  with c4:
+    st.info(
+        "📞 **Tổng đài Trẻ em 111:**\n"
+        "**111**\n*(Bảo vệ bạo lực gia đình 24/7)*"
     )
 
   st.write("---")
@@ -304,10 +298,10 @@ with st.expander(
     sos_loc = st.selectbox(
         "Em đang gặp nguy hiểm ở vị trí nào trong trường?",
         [
+            "Khu vực ngoài cổng trường / Quán nước đối diện (giờ tan học)",
             "Nhà xe học sinh",
-            "Cầu thang dãy phòng học (Tầng 1/2/3)",
-            "Khu vực ngoài cổng trường (giờ tan học)",
             "Khu vực nhà vệ sinh (WC tầng 1, 2 hoặc 3)",
+            "Cầu thang dãy phòng học lúc chuyển tiết",
             "Trong lớp học",
             "Vị trí khác",
         ],
@@ -325,10 +319,9 @@ with st.expander(
       }
       save_sos_alert(alert_data)
       st.success(
-          "✅ Tín hiệu của em đã được gửi bảo mật đến hệ thống hỗ trợ khẩn cấp"
-          " của trường! Thầy cô sẽ có mặt can thiệp sớm nhất. Em hãy di chuyển"
-          " ngay về phía Phòng Đoàn Đội tầng 1 hoặc Phòng Y tế/Văn phòng để được"
-          " an toàn nhé!"
+          "✅ Tín hiệu của em đã được ghi nhận! Em hãy di chuyển ngay về phía"
+          " VÙNG AN TOÀN: Phòng Bảo vệ cổng trường, Phòng Đoàn Đội tầng 1 hoặc"
+          " Phòng Văn thư để được bảo vệ ngay lập tức nhé!"
       )
 
 # Header trang chủ & Mascot Cô Tư Phùng
@@ -343,9 +336,10 @@ with col_mascot:
 with col_welcome:
   st.markdown("## 🌱 Góc Bình Yên Dưới Hiên Trường Phan Đình Phùng")
   st.markdown(
-      "> *“Chào em thân yêu! Hôm nay ở trường thế nào? Có chuyện gì ở lớp, bạn"
-      " bè hay trên mạng xã hội làm em chưa vui không? Cứ ngồi xuống đây kể cho"
-      " Cô Tư Phùng nghe nhé, mọi chuyện rồi sẽ ổn thôi...”*"
+      "> *“Chào con thân yêu! Hôm nay ở trường thế nào? Có chuyện gì ở lớp, bạn"
+      " bè hay trên mạng xã hội làm con lo sợ không? Dù ba mẹ có đang đi biển"
+      " xa, con cũng đừng lo vì luôn có Cô Tư Phùng và thầy cô ở trường bên cạnh"
+      " lắng nghe con...”*"
   )
   st.markdown(
       "🔒 **Cam kết bảo mật tuyệt đối:** *Ứng dụng không ghi nhận tên tuổi,"
@@ -392,94 +386,108 @@ with st.expander(
 
 st.markdown("---")
 
-# ----------------- 4. KHÔNG GIAN LỰA CHỌN CẢM XÚC -----------------
-st.markdown("### 🌸 Hôm nay lòng em thấy thế nào? *(Bấm chọn nhanh)*")
+# ----------------- 4. KHÔNG GIAN LỰA CHỌN CẢM XÚC ĐẶC THÙ -----------------
+st.markdown("### 🌸 Hôm nay lòng em thấy thế nào? *(Bấm chọn nhanh tình huống)*")
 col_e1, col_e2, col_e3, col_e4 = st.columns(4)
 
 with col_e1:
   if st.button(
-      "🌧️ Buồn & Tủi thân\n\n(Bị nói xấu, tẩy chay)", use_container_width=True
+      "🌧️ Buồn & Bị cô lập\n\n(Bị nói xấu, tẩy chay)", use_container_width=True
   ):
     st.session_state["selected_emotion_prompt"] = (
         "Em đang rất buồn và tủi thân vì bị bạn bè cô lập, nói xấu sau lưng và"
-        " không cho em chơi cùng..."
+        " không cho em chơi cùng trong lớp..."
     )
 with col_e2:
   if st.button(
-      "⚡ Sợ hãi & Bị đe dọa\n\n(Bị chặn đường, ép tiền)",
+      "⚡ Sợ hãi / Bị chặn đường\n\n(Bị ép tiền, gọi người đánh)",
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em đang rất sợ hãi vì bị một nhóm bạn đe dọa đánh nhau và chặn ở khu"
-        " vực nhà xe / cầu thang..."
+        "Em đang rất sợ vì bị đe dọa đánh nhau ở cổng trường lúc tan học, hoặc"
+        " bị ép tiền/cho vay nặng lãi không có tiền trả..."
     )
 with col_e3:
   if st.button(
-      "🌐 Mệt mỏi vì MXH\n\n(Bị bêu xấu trên mạng)", use_container_width=True
-  ):
-    st.session_state["selected_emotion_prompt"] = (
-        "Em cảm thấy kiệt sức vì bị lập nhóm chat bôi nhọ, cắt ghép ảnh chế dìm"
-        " hàng trên mạng xã hội..."
-    )
-with col_e4:
-  if st.button(
-      "🍃 Muốn tâm sự nhẹ nhàng\n\n(Áp lực điểm số, việc học)",
+      "🌐 Mệt mỏi vì bạo lực mạng\n\n(Bị bêu xấu trên Story/TikTok)",
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em đang có nhiều áp lực về việc học và điểm số, muốn được nghe lời khuyên"
-        " từ cô..."
+        "Em cảm thấy kiệt sức vì bị lập nhóm chat Messenger nói xấu, đăng ảnh"
+        " dìm và bêu rếu trên mạng xã hội..."
+    )
+with col_e4:
+  if st.button(
+      "🌊 Áp lực gia đình & Điểm số\n\n(Sợ cha mẹ đi biển về phạt)",
+      use_container_width=True,
+  ):
+    st.session_state["selected_emotion_prompt"] = (
+        "Em đang rất lo sợ và áp lực vì điểm thi kém, sợ cha mẹ đi biển về sẽ"
+        " mắng chửi hoặc đánh đòn..."
     )
 
-# KHUNG NHẬP NỘI DUNG TÂM SỰ
+# KHUNG NHẬP NỘI DUNG TÂM SỰ & CHỌN KHỐI LỚP
 default_text = st.session_state.get("selected_emotion_prompt", "")
-col_txt1, col_txt2 = st.columns([3, 1])
+col_txt1, col_txt2, col_txt3 = st.columns([3, 1, 1])
+
 with col_txt1:
   user_question = st.text_area(
       "Kể chi tiết hơn cho Cô Tư Phùng nghe nhé:",
       value=default_text,
       placeholder=(
-          "Ví dụ: Bạn thân trong lớp đem chuyện riêng của em kể cho lớp khác;"
-          " Bạn cùng bàn hay lấy tên ba mẹ em ra trêu đùa trước lớp..."
+          "Ví dụ: Bạn trong lớp hẹn tan học ra cổng trường 'tính sổ'; hoặc em"
+          " lỡ mượn bạn 50k mà bạn đòi phải trả 150k..."
       ),
       height=120,
       key="user_msg_input",
   )
 with col_txt2:
+  selected_grade = st.selectbox(
+      "Em đang học khối:", ["Khối 6", "Khối 7", "Khối 8", "Khối 9"]
+  )
+with col_txt3:
   selected_topic = st.selectbox(
-      "Chuyện này liên quan đến:",
+      "Vấn đề liên quan:",
       [
-          "Mâu thuẫn bạn bè",
-          "Áp lực học tập / Điểm số",
-          "Gia đình & Cha mẹ",
-          "Bắt nạt / Trấn lột / Tẩy chay",
-          "Bạo lực mạng (Cyberbullying)",
+          "Mâu thuẫn / Tẩy chay trong lớp",
+          "Bị chặn đường / Gọi người ngoài đánh",
+          "Trấn lột / Vay nặng lãi học sinh",
+          "Bạo lực mạng (Messenger/TikTok)",
+          "Áp lực điểm số & Gia đình đi biển",
           "Bất an về bản thân / Khác",
       ],
   )
 
-# HÀM GỌI API GEMINI VỚI CƠ CHẾ DỰ PHÒNG CHUẨN XÁC
+# HÀM GỌI API GEMINI
 api_key = os.environ.get("GEMINI_API_KEY") or st.secrets.get(
     "GEMINI_API_KEY", ""
 )
 client = genai.Client(api_key=api_key) if api_key else None
 
 
-def get_ai_reply(prompt):
+def get_ai_reply(prompt, grade, topic):
   candidate_models = [
       "gemini-3.6-flash",
       "gemini-3.5-flash-lite",
       "gemini-3.8-flash",
   ]
+  full_user_context = (
+      f"HỌC SINH THCS PHAN ĐÌNH PHÙNG ({grade.upper()}):\n"
+      f"- Nhóm vấn đề: {topic}\n"
+      f"- Lời tâm sự: {prompt}\n\n"
+      "Hãy phản hồi chuẩn xác theo 3 phần, chỉ dẫn cụ thể các phòng ban tầng"
+      " 1/2 và thầy cô trường THCS Phan Đình Phùng phù hợp với lứa tuổi của"
+      f" em."
+  )
   for m in candidate_models:
     try:
       res = client.models.generate_content(
           model=m,
-          contents=prompt,
+          contents=full_user_context,
           config={
               "system_instruction": SYSTEM_PROMPT,
               "max_output_tokens": 2500,
-              "temperature": 0.6,
+              "temperature": 0.5,
           },
       )
       if res and res.text:
@@ -498,7 +506,7 @@ if st.button("💌 Gửi gắm tâm sự cùng Cô Tư Phùng", type="primary"):
     st.error("Chưa kết nối được API Key trên Streamlit Cloud Secrets.")
   else:
     with st.spinner("Cô Tư Phùng đang lắng nghe và suy ngẫm cùng em..."):
-      reply, err = get_ai_reply(user_question)
+      reply, err = get_ai_reply(user_question, selected_grade, selected_topic)
       if reply:
         stats["total_questions"] += 1
         stats["topics"][selected_topic] = (
@@ -542,7 +550,7 @@ if st.session_state.get("has_new_reply", False):
         )
         part3 = (
             p2_split.split("[PHAN_3:")[1]
-            .replace("KẾ HOẠCH HÀNH ĐỘNG VĂN MINH]", "")
+            .replace("KẾ HOẠCH HÀNH ĐỘNG TẠI TRƯỜNG PHAN ĐÌNH PHÙNG]", "")
             .strip()
         )
       else:
@@ -595,8 +603,8 @@ if st.session_state.get("has_new_reply", False):
     follow_up_msg = st.text_area(
         "Viết tiếp điều em băn khoăn:",
         placeholder=(
-            "Ví dụ: Cô ơi nhưng nếu bạn ấy không chịu lắng nghe mà còn thách"
-            " thức thì sao ạ?"
+            "Ví dụ: Nhưng cô ơi nếu em báo thầy Thành thì bạn biết bạn lại chặn"
+            " đánh em thì sao ạ?"
         ),
         key="fu_text",
     )
@@ -611,10 +619,12 @@ if st.session_state.get("has_new_reply", False):
               "LỜI DẶN TRƯỚC ĐÓ CỦA CÔ TƯ PHÙNG:\n"
               f"{st.session_state['chat_history'][1]['text']}\n"
               f"HỌC SINH HỎI TIẾP: {follow_up_msg}\n"
-              "Hãy trả lời ân cần, chỉ rõ từng bước để học sinh Phan Đình Phùng"
-              " biết cách ứng phó an toàn."
+              "Hãy trả lời ân cần, chỉ rõ từng bước bảo mật thông tin để học"
+              " sinh Phan Đình Phùng an tâm tuyệt đối."
           )
-          sub_reply, sub_err = get_ai_reply(ctx)
+          sub_reply, sub_err = get_ai_reply(
+              ctx, selected_grade, selected_topic
+          )
           if sub_reply:
             st.session_state["chat_history"].append(
                 {"role": "user", "text": follow_up_msg}
@@ -650,7 +660,6 @@ with st.sidebar:
   st.bar_chart(stats.get("topics", {}))
 
   st.divider()
-  # MỤC QUẢN TRỊ BÍ MẬT DÀNH CHO THẦY CÔ
   with st.expander("🔒 Khu vực Giáo viên / Ban Giám Hiệu"):
     admin_pw = st.text_input("Nhập mật khẩu quản trị:", type="password")
     if admin_pw == "pdp2026":
