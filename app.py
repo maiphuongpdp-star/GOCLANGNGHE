@@ -65,31 +65,45 @@ def set_styling():
             font-weight: 600 !important;
         }}
 
-        /* KHUNG KHẨN CẤP SOS: PASTEL ĐỎ SAN HÔ NỔI BẬT */
-        div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) {{
-            background: #ffe3e3 !important;
+        /* KHUNG 1: VÒNG TAY CHE CHỞ (ĐỔ MÀU HỒNG PASTEL - VIỀN ĐỎ - CHỮ ĐẬM) */
+        .main div[data-testid="stExpander"]:first-of-type {
+            background-color: #ffe3e3 !important;
             border: 2px solid #ff6b6b !important;
             border-radius: 16px !important;
-            box-shadow: 0 4px 15px rgba(238, 82, 83, 0.2) !important;
-        }}
-        div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) summary {{
+            box-shadow: 0 4px 15px rgba(238, 82, 83, 0.25) !important;
+            margin-bottom: 18px !important;
+        }
+        .main div[data-testid="stExpander"]:first-of-type summary {
+            background-color: #ffd8d8 !important;
             color: #900c3f !important;
             font-weight: 800 !important;
-            font-size: 1.15rem !important;
-        }}
+            font-size: 1.12rem !important;
+            border-radius: 14px !important;
+            padding: 10px 15px !important;
+        }
+        .main div[data-testid="stExpander"]:first-of-type summary:hover {
+            background-color: #ffc9c9 !important;
+        }
 
-        /* KHUNG TRẠM DỪNG BÌNH TĨNH: PASTEL XANH BẠC HÀ */
-        div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) {{
-            background: #d8f3dc !important;
+        /* KHUNG 2: TRẠM DỪNG BÌNH TĨNH (ĐỔ MÀU XANH BẠC HÀ PASTEL - CHỮ XANH RÊU ĐẬM) */
+        .main div[data-testid="stExpander"]:nth-of-type(2) {
+            background-color: #d8f3dc !important;
             border: 2px solid #52b788 !important;
             border-radius: 16px !important;
-            box-shadow: 0 4px 12px rgba(64, 145, 108, 0.15) !important;
+            box-shadow: 0 4px 12px rgba(64, 145, 108, 0.2) !important;
             margin-top: 15px !important;
-        }}
-        div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) summary {{
+            margin-bottom: 20px !important;
+        }
+        .main div[data-testid="stExpander"]:nth-of-type(2) summary {
+            background-color: #b7e4c7 !important;
             color: #1b4332 !important;
             font-weight: 800 !important;
             font-size: 1.1rem !important;
+            border-radius: 14px !important;
+            padding: 10px 15px !important;
+        }
+        .main div[data-testid="stExpander"]:nth-of-type(2) summary:hover {
+            background-color: #95d5b2 !important;    
         }}
 
         /* CÁC NÚT TÌNH HUỐNG PASTEL - CHỮ ĐẬM SẮC NÉT */
