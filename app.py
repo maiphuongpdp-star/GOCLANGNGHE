@@ -65,45 +65,46 @@ def set_styling():
             font-weight: 600 !important;
         }}
 
-        /* KHUNG 1: VÒNG TAY CHE CHỞ (ĐỔ MÀU HỒNG PASTEL - VIỀN ĐỎ) */
-        .main div[data-testid="stExpander"]:first-of-type {{
-            background-color: #ffe3e3 !important;
-            border: 2px solid #ff6b6b !important;
+        /* KHUNG 1: VÒNG TAY CHE CHỞ (ĐỔ MÀU HỒNG PASTEL - VIỀN ĐỎ ĐẬM) */
+        div[data-testid="stExpander"]:has(summary [data-testid="stMarkdownContainer"]:contains("VÒNG TAY CHE CHỞ")),
+        div[data-testid="stExpander"]:has(summary:contains("VÒNG TAY CHE CHỞ")),
+        details:has(summary:contains("VÒNG TAY CHE CHỞ")) {
+            background-color: #ffe5e5 !important;
+            border: 2.5px solid #ff5252 !important;
             border-radius: 16px !important;
-            box-shadow: 0 4px 15px rgba(238, 82, 83, 0.25) !important;
+            box-shadow: 0 4px 15px rgba(255, 82, 82, 0.25) !important;
             margin-bottom: 18px !important;
-        }}
-        .main div[data-testid="stExpander"]:first-of-type summary {{
-            background-color: #ffd8d8 !important;
+        }
+        div[data-testid="stExpander"]:has(summary:contains("VÒNG TAY CHE CHỞ")) summary,
+        details:has(summary:contains("VÒNG TAY CHE CHỞ")) summary {
+            background: linear-gradient(135deg, #ffccd2 0%, #ffb3ba 100%) !important;
             color: #900c3f !important;
             font-weight: 800 !important;
-            font-size: 1.12rem !important;
-            border-radius: 14px !important;
-            padding: 10px 15px !important;
-        }}
-        .main div[data-testid="stExpander"]:first-of-type summary:hover {{
-            background-color: #ffc9c9 !important;
-        }}
+            font-size: 1.15rem !important;
+            border-radius: 13px !important;
+            padding: 12px 18px !important;
+        }
 
         /* KHUNG 2: TRẠM DỪNG BÌNH TĨNH (ĐỔ MÀU XANH BẠC HÀ PASTEL) */
-        .main div[data-testid="stExpander"]:nth-of-type(2) {{
-            background-color: #d8f3dc !important;
-            border: 2px solid #52b788 !important;
+        div[data-testid="stExpander"]:has(summary [data-testid="stMarkdownContainer"]:contains("TRẠM DỪNG BÌNH TĨNH")),
+        div[data-testid="stExpander"]:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")),
+        details:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")) {
+            background-color: #e8f8f0 !important;
+            border: 2.5px solid #2ecc71 !important;
             border-radius: 16px !important;
-            box-shadow: 0 4px 12px rgba(64, 145, 108, 0.2) !important;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2) !important;
             margin-top: 15px !important;
             margin-bottom: 20px !important;
-        }}
-        .main div[data-testid="stExpander"]:nth-of-type(2) summary {{
-            background-color: #b7e4c7 !important;
+        }
+        div[data-testid="stExpander"]:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")) summary,
+        details:has(summary:contains("TRẠM DỪNG BÌNH TĨNH")) summary {
+            background: linear-gradient(135deg, #c8f7dc 0%, #b2f2bb 100%) !important;
             color: #1b4332 !important;
             font-weight: 800 !important;
             font-size: 1.1rem !important;
-            border-radius: 14px !important;
-            padding: 10px 15px !important;
-        }}
-        .main div[data-testid="stExpander"]:nth-of-type(2) summary:hover {{
-            background-color: #95d5b2 !important;
+            border-radius: 13px !important;
+            padding: 12px 18px !important;
+        }
         }}
 
         /* CÁC NÚT TÌNH HUỐNG PASTEL - CHỮ ĐẬM SẮC NÉT */
