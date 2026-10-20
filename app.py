@@ -14,7 +14,7 @@ st.set_page_config(
 )
 
 
-# CÀI ĐẶT GIAO DIỆN NỀN VÀ KHUNG HIỂN THỊ SẮC NÉT
+# CÀI ĐẶT GIAO DIỆN NỀN VÀ KHUNG HIỂN THỊ CHỮ SIÊU ĐẬM - NÚT PASTEL
 def set_styling():
   bg_file = (
       "school_bg.png"
@@ -40,88 +40,114 @@ def set_styling():
             {bg_css}
         }}
         .main .block-container {{
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             padding: 2.2rem;
             border-radius: 22px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
             margin-top: 1.5rem;
             margin-bottom: 2rem;
         }}
-        h1, h2, h3, h4, h5, p, span, label, .stMarkdown {{
-            color: #1a202c !important;
-            font-weight: 500;
+        
+        /* Chữ toàn bộ trang đậm nét, tương phản tuyệt đối */
+        h1, h2, h3, h4, h5, p, span, label, .stMarkdown, div {{
+            color: #111827 !important;
+            font-weight: 700 !important;
         }}
+        
         blockquote {{
             background-color: #f0fff4 !important;
-            border-left: 5px solid #38a169 !important;
-            color: #22543d !important;
-            font-size: 1.05rem !important;
-            padding: 12px 18px !important;
-            border-radius: 8px !important;
-            margin: 10px 0 !important;
+            border-left: 6px solid #2ecc71 !important;
+            color: #1b4332 !important;
+            font-size: 1.1rem !important;
+            padding: 14px 20px !important;
+            border-radius: 10px !important;
+            margin: 12px 0 !important;
+            font-weight: 600 !important;
         }}
-        /* Khung khẩn cấp */
+
+        /* KHUNG KHẨN CẤP SOS: PASTEL ĐỎ SAN HÔ NỔI BẬT */
         div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) {{
-            background: linear-gradient(135deg, #ff4757 0%, #ee5253 100%) !important;
-            border: none !important;
+            background: #ffe3e3 !important;
+            border: 2px solid #ff6b6b !important;
             border-radius: 16px !important;
-            box-shadow: 0 6px 20px rgba(238, 82, 83, 0.4) !important;
+            box-shadow: 0 4px 15px rgba(238, 82, 83, 0.2) !important;
         }}
         div[data-testid="stExpander"]:has(div:contains("VÒNG TAY CHE CHỞ")) summary {{
-            color: white !important;
-            font-weight: bold !important;
-            font-size: 1.1rem !important;
+            color: #900c3f !important;
+            font-weight: 800 !important;
+            font-size: 1.15rem !important;
         }}
-        /* Trạm dừng bình tĩnh */
+
+        /* KHUNG TRẠM DỪNG BÌNH TĨNH: PASTEL XANH BẠC HÀ */
         div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) {{
-            background: linear-gradient(135deg, #10ac84 0%, #1dd1a1 100%) !important;
-            border: none !important;
+            background: #d8f3dc !important;
+            border: 2px solid #52b788 !important;
             border-radius: 16px !important;
-            box-shadow: 0 5px 18px rgba(16, 172, 132, 0.3) !important;
+            box-shadow: 0 4px 12px rgba(64, 145, 108, 0.15) !important;
             margin-top: 15px !important;
         }}
         div[data-testid="stExpander"]:has(div:contains("TRẠM DỪNG BÌNH TĨNH")) summary {{
-            color: white !important;
-            font-weight: bold !important;
-            font-size: 1.05rem !important;
-        }}
-        /* 4 Nút cảm xúc gradient rực rỡ */
-        div[data-testid="column"]:nth-of-type(1) .stButton > button {{
-            background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%) !important;
-            color: #ffffff !important;
-            border: none !important;
-            font-weight: bold !important;
-            border-radius: 14px !important;
-        }}
-        div[data-testid="column"]:nth-of-type(2) .stButton > button {{
-            background: linear-gradient(135deg, #d35400 0%, #e67e22 100%) !important;
-            color: #ffffff !important;
-            border: none !important;
-            font-weight: bold !important;
-            border-radius: 14px !important;
-        }}
-        div[data-testid="column"]:nth-of-type(3) .stButton > button {{
-            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%) !important;
-            color: #ffffff !important;
-            border: none !important;
-            font-weight: bold !important;
-            border-radius: 14px !important;
-        }}
-        div[data-testid="column"]:nth-of-type(4) .stButton > button {{
-            background: linear-gradient(135deg, #00b894 0%, #55efc4 100%) !important;
-            color: #2d3436 !important;
-            border: none !important;
-            font-weight: bold !important;
-            border-radius: 14px !important;
-        }}
-        .stButton > button[kind="primary"] {{
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
-            color: white !important;
+            color: #1b4332 !important;
+            font-weight: 800 !important;
             font-size: 1.1rem !important;
-            padding: 0.65rem 1.8rem !important;
+        }}
+
+        /* CÁC NÚT TÌNH HUỐNG PASTEL - CHỮ ĐẬM SẮC NÉT */
+        /* Nút 1: Buồn & Cô lập (Pastel Xanh Lam Nhẹ - Chữ Xanh Dương Đậm) */
+        div[data-testid="column"]:nth-of-type(1) .stButton > button {{
+            background: #dbeafe !important;
+            color: #1e40af !important;
+            border: 2px solid #93c5fd !important;
+            font-weight: 800 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 3px 8px rgba(30, 64, 175, 0.12) !important;
+        }}
+
+        /* Nút 2: Đánh nhau / Chặn đường (Pastel Cam Đào - Chữ Đỏ Nâu Đậm) */
+        div[data-testid="column"]:nth-of-type(2) .stButton > button {{
+            background: #ffedd5 !important;
+            color: #9a3412 !important;
+            border: 2px solid #fdba74 !important;
+            font-weight: 800 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 3px 8px rgba(154, 52, 18, 0.12) !important;
+        }}
+
+        /* Nút 3: Bạo lực mạng MXH (Pastel Tím Lavender - Chữ Tím Đậm) */
+        div[data-testid="column"]:nth-of-type(3) .stButton > button {{
+            background: #f3e8ff !important;
+            color: #6b21a8 !important;
+            border: 2px solid #d8b4fe !important;
+            font-weight: 800 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 3px 8px rgba(107, 33, 168, 0.12) !important;
+        }}
+
+        /* Nút 4: Áp lực gia đình / Điểm số (Pastel Trà Xanh - Chữ Xanh Rêu Đậm) */
+        div[data-testid="column"]:nth-of-type(4) .stButton > button {{
+            background: #dcfce7 !important;
+            color: #166534 !important;
+            border: 2px solid #86efac !important;
+            font-weight: 800 !important;
+            border-radius: 14px !important;
+            box-shadow: 0 3px 8px rgba(22, 101, 52, 0.12) !important;
+        }}
+
+        .stButton > button:hover {{
+            transform: translateY(-2px) !important;
+            filter: brightness(0.96) !important;
+        }}
+
+        /* NÚT GỬI CHÍNH: XANH EMERALD RỰC RỠ */
+        .stButton > button[kind="primary"] {{
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            color: #ffffff !important;
+            font-size: 1.15rem !important;
+            padding: 0.75rem 2rem !important;
             border-radius: 14px !important;
             border: none !important;
-            box-shadow: 0 6px 18px rgba(39, 174, 96, 0.45) !important;
+            box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4) !important;
+            font-weight: 800 !important;
         }}
         </style>
         """,
@@ -143,9 +169,9 @@ def load_stats():
       "helpful_no": 1,
       "topics": {
           "Mâu thuẫn / Tẩy chay trong lớp": 2,
-          "Bị chặn đường / Gọi người ngoài đánh": 1,
+          "Đánh nhau bộc phát / Chặn cổng trường": 1,
+          "Khiêu khích trên MXH (FB/TikTok)": 1,
           "Trấn lột / Vay nặng lãi học sinh": 1,
-          "Bạo lực mạng (Messenger/TikTok)": 1,
           "Áp lực điểm số & Gia đình đi biển": 0,
           "Bất an về bản thân / Khác": 0,
       },
@@ -201,8 +227,7 @@ if "show_follow_up" not in st.session_state:
 if "selected_emotion_prompt" not in st.session_state:
   st.session_state["selected_emotion_prompt"] = ""
 
-# ----------------- 2. HỆ THỐNG TRI THỨC CÔ TƯ PHÙNG (ĐÃ CẬP NHẬT) -----------------
-# Toàn bộ System Prompt ở Mục 1 được tích hợp vào đây
+# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG (BỔ SUNG 2 TÌNH HUỐNG NGUY HIỂM) -----------------
 SYSTEM_PROMPT = """
 Bạn là "Cô Tư Phùng" - Người đồng hành tâm lý học đường, người mẹ hiền và điểm tựa an toàn tuyệt đối của học sinh trường THCS Phan Đình Phùng (quận Thanh Khê, TP. Đà Nẵng).
 
@@ -213,8 +238,7 @@ I. HỒ SƠ THỰC TẾ & BỐI CẢNH ĐẶC THÙ TRƯỜNG THCS PHAN ĐÌNH PH
 - Tâm lý đặc thù: Dễ cảm thấy cô đơn, thiếu thốn tình cảm, xu hướng sống tự lập sớm hoặc dễ mất bình tĩnh, dùng nắm đấm để tự giải quyết mâu thuẫn. Một số em chịu áp lực điểm số nặng nề vì kỳ vọng đổi đời của cha mẹ, sợ bị đánh đòn mỗi khi cha đi biển về biết điểm kém.
 3. Nhận diện từ lóng & ngôn ngữ tuổi teen THCS tại Đà Nẵng:
 - Từ ngữ bêu xấu/khiêu khích: "mõm", "ra cổng trường nói chuyện", "kèo", "gạ solo", "nhìn đểu", "chảnh chó", "phốt", "bóc phốt", "tẩy chay", "coi chừng tao", "tính sổ", "mày đợi đó".
-- Các hình thức bạo lực mạng: Lập nhóm kín Messenger/Zalo nói xấu, lập confession ảo bêu rếu ảnh dìm, cap màn hình tin nhắn riêng tư đăng lên Story Facebook/TikTok.
-- Nạn bạo lực tài chính: Ép vay tiền ăn vặt rồi đòi gấp đôi, gấp ba; trấn lột tiền tiêu vặt.
+- Nền tảng mạng xã hội: Facebook (Story/Confession), TikTok, nhóm kín Messenger/Zalo.
 
 II. SƠ ĐỒ VÙNG NGUY HIỂM & VÙNG AN TOÀN TRONG TRƯỜNG:
 1. Vùng nguy hiểm (Điểm nóng cần tránh xa khi có xung đột):
@@ -225,20 +249,22 @@ II. SƠ ĐỒ VÙNG NGUY HIỂM & VÙNG AN TOÀN TRONG TRƯỜNG:
 2. Vùng an toàn tuyệt đối (Safe Zones) - Hướng dẫn học sinh chạy ngay đến:
 - Tầng 1: Phòng Bảo vệ ngay cổng trường (có các bác bảo vệ trực 24/24).
 - Tầng 1: Phòng Tổng phụ trách Đội (Thầy Đoàn Đình Thành - SĐT: 0905.659.995).
-- Tầng 1: Phòng Y tế (Cô Thúy Y tế) và Phòng Văn thư (có điện thoại hỗ trợ học sinh gọi người nhà).
+- Tầng 1: Phòng Y tế và Phòng Văn thư (có điện thoại hỗ trợ học sinh gọi người nhà).
 - Tầng 2: Khu Hiệu bộ (Phòng Cô Hiệu trưởng Nguyễn Thị Thu Hà: 0905.654.888; Cô Phó HT Trần Thị Quế: 0983.225.126).
 - Ngoài trường (Bảo vệ tính mạng khẩn cấp): Công an Phường Thanh Khê - SĐT: 0236.3714.677; Tổng đài Quốc gia Bảo vệ Trẻ em: 111.
 
 III. QUY TRÌNH XỬ LÝ TÌNH HUỐNG CHUẨN HÓA (SOP):
-1. Kịch bản Bị chặn đường / Đe dọa gọi người ngoài vào trường đánh:
-- Tuyệt đối KHÔNG ra cổng một mình, KHÔNG đi vào các hẻm đối diện.
-- Ở yên trong sân trường, di chuyển ngay vào Phòng Bảo vệ cổng trường hoặc Phòng Văn thư tầng 1 nhờ điện thoại gọi người thân đón về. Báo ngay Thầy Thành TPT hoặc gọi Công an phường Thanh Khê (0236.3714.677) nếu nhóm đối tượng đứng tụ tập ngoài cổng.
-2. Kịch bản Trấn lột tiền / Cho vay nặng lãi (gấp đôi gấp ba):
+1. Kịch bản KHIÊU KHÍCH TRÊN MẠNG XÃ HỘI (Facebook, TikTok) DẪN ĐẾN HẸN ĐÁNH NHAU:
+- Tuyệt đối KHÔNG nhận kèo, KHÔNG đôi co thách thức lại trên mạng.
+- Chụp ảnh màn hình toàn bộ tin nhắn/bình luận đe dọa để lưu chứng cứ.
+- Giờ tan học KHÔNG đi ra cổng một mình, KHÔNG đi vào các hẻm quán nước đối diện. Ở yên trong sân trường, vào Phòng Bảo vệ hoặc Phòng Văn thư tầng 1 báo ngay cho Thầy Thành TPT Đội hoặc nhờ gọi phụ huynh đến đón.
+2. Kịch bản CHƠI GIỠN QUÁ TRỚN MẤT BÌNH TĨNH DẪN ĐẾN ĐÁNH NHAU TẠI CHỖ (Tình huống bộc phát nhanh):
+- Đối với em là người trong cuộc: LẬP TỨC LÙI LẠI, giơ hai tay phòng thủ, KHÔNG tiếp tục lao vào đánh trả để tránh thương tích nặng hơn.
+- Đối với em và các bạn xung quanh: HÔ TO THẬT LỚN để lôi kéo sự chú ý của mọi người cùng vào can ngăn; ĐỒNG THỜI CỬ NGAY 1 BẠN CHẠY ĐI BÁO THẦY CÔ gần nhất (Phòng Đội tầng 1 gặp Thầy Thành, phòng giáo viên hoặc bác bảo vệ trực cổng).
+3. Kịch bản Trấn lột tiền / Cho vay nặng lãi (gấp đôi gấp ba):
 - KHÔNG chống cự trực tiếp nếu đối phương đông người để tránh bị thương tích.
 - Chụp màn hình tin nhắn đòi tiền/chứng cứ mượn tiền, KHÔNG chuyển thêm tiền.
 - Báo riêng với Giáo viên chủ nhiệm lớp của em hoặc Thầy Thành TPT tại phòng Đoàn Đội tầng 1.
-3. Kịch bản Bạo lực mạng (Cyberbullying):
-- KHÔNG tranh cãi tay đôi trên mạng; chụp ảnh màn hình làm bằng chứng; chặn nick hoặc cài đặt bảo mật trang cá nhân; chia sẻ với cô chủ nhiệm để can thiệp hòa giải.
 4. Kịch bản Áp lực điểm số / Sợ cha mẹ đi biển về đánh mắng:
 - Thấu hiểu sự vất vả, sóng gió biển khơi của cha mẹ và nỗi sợ hãi của học sinh. Hướng dẫn cách chọn thời điểm nói chuyện chân thành (lúc bố mẹ vui vẻ, thong thả sau chuyến biển) và cách viết một bức thư tay ngắn gửi bố mẹ trước. Nếu có nguy cơ bạo lực thân thể, nhắc em nhớ số 111.
 
@@ -249,7 +275,7 @@ Xưng hô: "Cô Tư Phùng" và "Em" (hoặc "con"). Âm sắc miền Trung ấm
 [PHAN_2: GÓC NHÌN ĐA CHIỀU]
 (Tách bạch giá trị bản thân em khỏi lời đàm tiếu; phân tích tâm lý người bắt nạt/nguyên nhân sự việc).
 [PHAN_3: KẾ HOẠCH HÀNH ĐỘNG TẠI TRƯỜNG PHAN ĐÌNH PHÙNG]
-(Quy trình bước-theo-bước: chỉ rõ đi tới phòng nào ở tầng mấy, tìm gặp ai, câu nói mẫu để tự bảo vệ, số điện thoại khẩn cấp cần gọi).
+(Quy trình bước-theo-bước rõ ràng: hô hoán can ngăn, chỉ rõ chạy đến phòng nào ở tầng mấy, tìm gặp ai, câu nói mẫu để tự bảo vệ, số điện thoại khẩn cấp cần gọi).
 """
 
 # ----------------- 3. GIAO DIỆN CHÍNH -----------------
@@ -262,9 +288,9 @@ with st.expander(
 ):
   st.markdown(
       """
-    <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 10px;">
-        <h4 style="color: #d63031; margin-top: 0;">🚨 HỖ TRỢ KHẨN CẤP DÀNH CHO HỌC SINH THCS PHAN ĐÌNH PHÙNG:</h4>
-        <p style="color: #2d3436;">Nếu em đang bị đe dọa đánh nhau, bị chặn đường ở cổng trường/nhà xe, hoặc bị ép tiền, hãy gọi ngay cho thầy cô hoặc lực lượng chức năng:</p>
+    <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #ffccd2;">
+        <h4 style="color: #c0392b; margin-top: 0; font-weight: 800;">🚨 HỖ TRỢ KHẨN CẤP DÀNH CHO HỌC SINH THCS PHAN ĐÌNH PHÙNG:</h4>
+        <p style="color: #2d3436; font-size: 1rem;">Nếu em đang bị đe dọa đánh nhau, bị chặn đường ở cổng trường/nhà xe, hoặc xảy ra ẩu đả bộc phát, hãy gọi ngay cho Ban Giám Hiệu, Thầy Tổng Phụ Trách hoặc lực lượng chức năng:</p>
     </div>
     """,
       unsafe_allow_html=True,
@@ -273,13 +299,13 @@ with st.expander(
   c1, c2, c3, c4 = st.columns(4)
   with c1:
     st.info(
-        "📞 **Thầy Thành (TPT Đội):**\n"
-        "**0905.659.995**\n*(Phòng Đoàn Đội Tầng 1)*"
+        "📞 **Cô Hà (Hiệu trưởng):**\n"
+        "**0905.654.888**\n*(Tầng 2 Khu Hiệu Bộ)*"
     )
   with c2:
     st.info(
-        "📞 **Cô Thúy (Y tế):**\n*(Phòng Y tế Tầng 1 dãy chính)*\n*Hỗ trợ sơ cứu"
-        " & chỗ lánh an toàn*"
+        "📞 **Thầy Thành (TPT Đội):**\n"
+        "**0905.659.995**\n*(Phòng Đoàn Đội Tầng 1)*"
     )
   with c3:
     st.info(
@@ -298,11 +324,11 @@ with st.expander(
     sos_loc = st.selectbox(
         "Em đang gặp nguy hiểm ở vị trí nào trong trường?",
         [
+            "Đang xảy ra ẩu đả bộc phát ngay trong lớp / hành lang",
             "Khu vực ngoài cổng trường / Quán nước đối diện (giờ tan học)",
             "Nhà xe học sinh",
             "Khu vực nhà vệ sinh (WC tầng 1, 2 hoặc 3)",
             "Cầu thang dãy phòng học lúc chuyển tiết",
-            "Trong lớp học",
             "Vị trí khác",
         ],
     )
@@ -319,9 +345,10 @@ with st.expander(
       }
       save_sos_alert(alert_data)
       st.success(
-          "✅ Tín hiệu của em đã được ghi nhận! Em hãy di chuyển ngay về phía"
-          " VÙNG AN TOÀN: Phòng Bảo vệ cổng trường, Phòng Đoàn Đội tầng 1 hoặc"
-          " Phòng Văn thư để được bảo vệ ngay lập tức nhé!"
+          "✅ Tín hiệu của em đã được gửi khẩn cấp! Nếu đang có xô xát: Em hãy"
+          " HÔ TO để các bạn xung quanh cùng can ngăn và CỬ NGAY 1 BẠN chạy đi"
+          " báo Thầy Thành (Phòng Đội tầng 1) hoặc Bác Bảo Vệ cổng trường ngay"
+          " lập tức nhé!"
       )
 
 # Header trang chủ & Mascot Cô Tư Phùng
@@ -354,8 +381,8 @@ with st.expander(
   tab_breath, tab_tear = st.tabs(["🌬️ Hít thở hạ hỏa 4-7-8", "🗑️ Viết rồi xé bỏ"])
   with tab_breath:
     st.write(
-        "Nếu em đang rất uất ức, tim đập nhanh, hãy thở theo nhịp cùng Cô Tư"
-        " Phùng để lấy lại bình tĩnh trước nhé:"
+        "Nếu em đang rất bực bội, tim đập nhanh, hãy thở theo nhịp cùng Cô Tư"
+        " Phùng để lấy lại bình tĩnh, tránh hành động bộc phát nhé:"
     )
     if st.button("Bắt đầu nhịp thở 4-7-8"):
       box = st.empty()
@@ -386,7 +413,7 @@ with st.expander(
 
 st.markdown("---")
 
-# ----------------- 4. KHÔNG GIAN LỰA CHỌN CẢM XÚC ĐẶC THÙ -----------------
+# ----------------- 4. KHÔNG GIAN LỰA CHỌN CẢM XÚC ĐẶC THÙ (NÚT PASTEL) -----------------
 st.markdown("### 🌸 Hôm nay lòng em thấy thế nào? *(Bấm chọn nhanh tình huống)*")
 col_e1, col_e2, col_e3, col_e4 = st.columns(4)
 
@@ -400,21 +427,21 @@ with col_e1:
     )
 with col_e2:
   if st.button(
-      "⚡ Sợ hãi / Bị chặn đường\n\n(Bị ép tiền, gọi người đánh)",
+      "⚡ Ẩu đả / Đe dọa đánh nhau\n\n(Giỡn quá trớn, chặn cổng)",
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em đang rất sợ vì bị đe dọa đánh nhau ở cổng trường lúc tan học, hoặc"
-        " bị ép tiền/cho vay nặng lãi không có tiền trả..."
+        "Em và bạn đùa giỡn rồi mất kiểm soát sắp đánh nhau tại chỗ; hoặc em bị"
+        " đe dọa chặn đường ở cổng trường lúc tan học..."
     )
 with col_e3:
   if st.button(
-      "🌐 Mệt mỏi vì bạo lực mạng\n\n(Bị bêu xấu trên Story/TikTok)",
+      "🌐 Khiêu khích trên MXH\n\n(Bị bêu xấu trên Story/TikTok)",
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em cảm thấy kiệt sức vì bị lập nhóm chat Messenger nói xấu, đăng ảnh"
-        " dìm và bêu rếu trên mạng xã hội..."
+        "Em cảm thấy kiệt sức vì bị lập nhóm chat bôi nhọ, khiêu khích hẹn ra"
+        " cổng trường đánh nhau, đăng ảnh dìm lên TikTok/Facebook..."
     )
 with col_e4:
   if st.button(
@@ -435,8 +462,8 @@ with col_txt1:
       "Kể chi tiết hơn cho Cô Tư Phùng nghe nhé:",
       value=default_text,
       placeholder=(
-          "Ví dụ: Bạn trong lớp hẹn tan học ra cổng trường 'tính sổ'; hoặc em"
-          " lỡ mượn bạn 50k mà bạn đòi phải trả 150k..."
+          "Ví dụ: Bạn trong lớp hẹn tan học ra cổng trường 'tính sổ'; hoặc hai"
+          " bạn trong lớp đang lao vào đánh nhau..."
       ),
       height=120,
       key="user_msg_input",
@@ -450,9 +477,9 @@ with col_txt3:
       "Vấn đề liên quan:",
       [
           "Mâu thuẫn / Tẩy chay trong lớp",
-          "Bị chặn đường / Gọi người ngoài đánh",
+          "Đánh nhau bộc phát / Chặn cổng trường",
+          "Khiêu khích trên MXH (FB/TikTok)",
           "Trấn lột / Vay nặng lãi học sinh",
-          "Bạo lực mạng (Messenger/TikTok)",
           "Áp lực điểm số & Gia đình đi biển",
           "Bất an về bản thân / Khác",
       ],
@@ -475,9 +502,11 @@ def get_ai_reply(prompt, grade, topic):
       f"HỌC SINH THCS PHAN ĐÌNH PHÙNG ({grade.upper()}):\n"
       f"- Nhóm vấn đề: {topic}\n"
       f"- Lời tâm sự: {prompt}\n\n"
-      "Hãy phản hồi chuẩn xác theo 3 phần, chỉ dẫn cụ thể các phòng ban tầng"
-      " 1/2 và thầy cô trường THCS Phan Đình Phùng phù hợp với lứa tuổi của"
-      f" em."
+      "Hãy phản hồi chuẩn xác theo 3 phần: [PHAN_1: THẤU HIỂU & GỌI TÊN CẢM"
+      " XÚC], [PHAN_2: GÓC NHÌN ĐA CHIỀU], [PHAN_3: KẾ HOẠCH HÀNH ĐỘNG TẠI"
+      " TRƯỜNG PHAN ĐÌNH PHÙNG]. Nếu là tình huống đánh nhau bộc phát hoặc khiêu"
+      " khích MXH, hãy chỉ dẫn ngay SOP ứng phó khẩn cấp: hô hoán can ngăn, cử"
+      " bạn đi báo thầy Thành/bác bảo vệ ngay lập tức."
   )
   for m in candidate_models:
     try:
