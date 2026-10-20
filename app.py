@@ -4,6 +4,7 @@ import json
 import os
 import time
 from google import genai
+import requests
 import streamlit as st
 
 # Cấu hình giao diện Streamlit
@@ -39,7 +40,6 @@ def set_styling():
         unsafe_allow_html=True,
     )
 
-  # CSS TÁCH BIỆT HOÀN TOÀN KHÔNG DÙNG F-STRING ĐỂ TRÁNH LỖI NGOẶC NHỌN
   st.markdown(
       """
     <style>
@@ -169,13 +169,24 @@ def set_styling():
 
 set_styling()
 
-# ----------------- 1. QUẢN LÝ DỮ LIỆU LƯU TRỮ -----------------
-STATS_FILE = "stats.json"
+# ----------------- 1. QUẢN LÝ DỮ LIỆU ĐỒNG BỘ GOOGLE SHEETS -----------------
+SHEETS_URL = os.environ.get("SHEETS_WEBHOOK_URL") or st.secrets.get(
+    "SHEETS_WEBHOOK_URL", ""
+)
 SOS_FILE = "sos_alerts.json"
+
+TOPIC_KEY_MAP = {
+    "Mâu thuẫn / Tẩy chay trong lớp": "topic_1",
+    "Đánh nhau bộc phát / Chặn cổng trường": "topic_2",
+    "Khiêu khích trên MXH (FB/TikTok)": "topic_3",
+    "Trấn lột / Vay nặng lãi học sinh": "topic_4",
+    "Áp lực điểm số & Gia đình đi biển": "topic_5",
+    "Bất an về bản thân / Khác": "topic_6",
+}
 
 
 def load_stats():
-  default_stats = {
+  fallback_stats = {
       "total_questions": 5,
       "helpful_yes": 4,
       "helpful_no": 1,
@@ -188,23 +199,35 @@ def load_stats():
           "Bất an về bản thân / Khác": 0,
       },
   }
-  if not os.path.exists(STATS_FILE):
-    return default_stats
+  if not SHEETS_URL:
+    return fallback_stats
   try:
-    with open(STATS_FILE, "r", encoding="utf-8") as f:
-      data = json.load(f)
-      for k in default_stats["topics"]:
-        if k not in data.get("topics", {}):
-          data.setdefault("topics", {})[k] = 0
-      return data
+    res = requests.get(SHEETS_URL, timeout=4)
+    if res.status_code == 200:
+      data = res.json()
+      return {
+          "total_questions": data.get("total_questions", 5),
+          "helpful_yes": data.get("helpful_yes", 4),
+          "helpful_no": data.get("helpful_no", 1),
+          "topics": {
+              "Mâu thuẫn / Tẩy chay trong lớp": data.get("topic_1", 2),
+              "Đánh nhau bộc phát / Chặn cổng trường": data.get("topic_2", 1),
+              "Khiêu khích trên MXH (FB/TikTok)": data.get("topic_3", 1),
+              "Trấn lột / Vay nặng lãi học sinh": data.get("topic_4", 1),
+              "Áp lực điểm số & Gia đình đi biển": data.get("topic_5", 0),
+              "Bất an về bản thân / Khác": data.get("topic_6", 0),
+          },
+      }
   except Exception:
-    return default_stats
+    pass
+  return fallback_stats
 
 
-def save_stats(stats):
+def sync_to_sheet(key_name):
+  if not SHEETS_URL:
+    return
   try:
-    with open(STATS_FILE, "w", encoding="utf-8") as f:
-      json.dump(stats, f, ensure_ascii=False, indent=2)
+    requests.post(SHEETS_URL, json={"key": key_name}, timeout=3)
   except Exception:
     pass
 
@@ -549,11 +572,15 @@ if st.button("💌 Gửi gắm tâm sự cùng Cô Tư Phùng", type="primary"):
     with st.spinner("Cô Tư Phùng đang lắng nghe và suy ngẫm cùng em..."):
       reply, err = get_ai_reply(user_question, selected_grade, selected_topic)
       if reply:
+        # Đồng bộ tăng số lượng vào Google Sheet
+        sync_to_sheet("total_questions")
+        sync_to_sheet(TOPIC_KEY_MAP.get(selected_topic, "topic_6"))
+
+        # Cập nhật tạm thời cho lượt xem hiện tại
         stats["total_questions"] += 1
         stats["topics"][selected_topic] = (
             stats["topics"].get(selected_topic, 0) + 1
         )
-        save_stats(stats)
 
         st.session_state["chat_history"] = [
             {"role": "user", "text": user_question},
@@ -626,14 +653,14 @@ if st.session_state.get("has_new_reply", False):
   c_btn1, c_btn2 = st.columns(2)
   with c_btn1:
     if st.button("👍 Dạ rồi, em đã thấy nhẹ lòng và bình tĩnh hơn"):
+      sync_to_sheet("helpful_yes")
       stats["helpful_yes"] += 1
-      save_stats(stats)
       st.success("Thương em! Cố lên nhé, cô luôn ở bên cạnh đồng hành cùng em.")
       st.session_state["show_follow_up"] = False
   with c_btn2:
     if st.button("👎 Em vẫn còn thấy lo lắng và bối rối..."):
+      sync_to_sheet("helpful_no")
       stats["helpful_no"] += 1
-      save_stats(stats)
       st.session_state["show_follow_up"] = True
 
   if st.session_state.get("show_follow_up", False):
