@@ -65,49 +65,48 @@ def set_styling():
             font-weight: 600 !important;
         }}
 
-        /* KHUNG 1: VÒNG TAY CHE CHỞ (ĐỔ MÀU HỒNG PASTEL - VIỀN ĐỎ - CHỮ ĐẬM) */
-        .main div[data-testid="stExpander"]:first-of-type {
+        /* KHUNG 1: VÒNG TAY CHE CHỞ (ĐỔ MÀU HỒNG PASTEL - VIỀN ĐỎ) */
+        .main div[data-testid="stExpander"]:first-of-type {{
             background-color: #ffe3e3 !important;
             border: 2px solid #ff6b6b !important;
             border-radius: 16px !important;
             box-shadow: 0 4px 15px rgba(238, 82, 83, 0.25) !important;
             margin-bottom: 18px !important;
-        }
-        .main div[data-testid="stExpander"]:first-of-type summary {
+        }}
+        .main div[data-testid="stExpander"]:first-of-type summary {{
             background-color: #ffd8d8 !important;
             color: #900c3f !important;
             font-weight: 800 !important;
             font-size: 1.12rem !important;
             border-radius: 14px !important;
             padding: 10px 15px !important;
-        }
-        .main div[data-testid="stExpander"]:first-of-type summary:hover {
+        }}
+        .main div[data-testid="stExpander"]:first-of-type summary:hover {{
             background-color: #ffc9c9 !important;
-        }
+        }}
 
-        /* KHUNG 2: TRẠM DỪNG BÌNH TĨNH (ĐỔ MÀU XANH BẠC HÀ PASTEL - CHỮ XANH RÊU ĐẬM) */
-        .main div[data-testid="stExpander"]:nth-of-type(2) {
+        /* KHUNG 2: TRẠM DỪNG BÌNH TĨNH (ĐỔ MÀU XANH BẠC HÀ PASTEL) */
+        .main div[data-testid="stExpander"]:nth-of-type(2) {{
             background-color: #d8f3dc !important;
             border: 2px solid #52b788 !important;
             border-radius: 16px !important;
             box-shadow: 0 4px 12px rgba(64, 145, 108, 0.2) !important;
             margin-top: 15px !important;
             margin-bottom: 20px !important;
-        }
-        .main div[data-testid="stExpander"]:nth-of-type(2) summary {
+        }}
+        .main div[data-testid="stExpander"]:nth-of-type(2) summary {{
             background-color: #b7e4c7 !important;
             color: #1b4332 !important;
             font-weight: 800 !important;
             font-size: 1.1rem !important;
             border-radius: 14px !important;
             padding: 10px 15px !important;
-        }
-        .main div[data-testid="stExpander"]:nth-of-type(2) summary:hover {
-            background-color: #95d5b2 !important;    
+        }}
+        .main div[data-testid="stExpander"]:nth-of-type(2) summary:hover {{
+            background-color: #95d5b2 !important;
         }}
 
         /* CÁC NÚT TÌNH HUỐNG PASTEL - CHỮ ĐẬM SẮC NÉT */
-        /* Nút 1: Buồn & Cô lập (Pastel Xanh Lam Nhẹ - Chữ Xanh Dương Đậm) */
         div[data-testid="column"]:nth-of-type(1) .stButton > button {{
             background: #dbeafe !important;
             color: #1e40af !important;
@@ -117,7 +116,6 @@ def set_styling():
             box-shadow: 0 3px 8px rgba(30, 64, 175, 0.12) !important;
         }}
 
-        /* Nút 2: Đánh nhau / Chặn đường (Pastel Cam Đào - Chữ Đỏ Nâu Đậm) */
         div[data-testid="column"]:nth-of-type(2) .stButton > button {{
             background: #ffedd5 !important;
             color: #9a3412 !important;
@@ -127,7 +125,6 @@ def set_styling():
             box-shadow: 0 3px 8px rgba(154, 52, 18, 0.12) !important;
         }}
 
-        /* Nút 3: Bạo lực mạng MXH (Pastel Tím Lavender - Chữ Tím Đậm) */
         div[data-testid="column"]:nth-of-type(3) .stButton > button {{
             background: #f3e8ff !important;
             color: #6b21a8 !important;
@@ -137,7 +134,6 @@ def set_styling():
             box-shadow: 0 3px 8px rgba(107, 33, 168, 0.12) !important;
         }}
 
-        /* Nút 4: Áp lực gia đình / Điểm số (Pastel Trà Xanh - Chữ Xanh Rêu Đậm) */
         div[data-testid="column"]:nth-of-type(4) .stButton > button {{
             background: #dcfce7 !important;
             color: #166534 !important;
@@ -152,7 +148,7 @@ def set_styling():
             filter: brightness(0.96) !important;
         }}
 
-        /* NÚT GỬI CHÍNH: XANH EMERALD RỰC RỠ */
+        /* NÚT GỬI CHÍNH */
         .stButton > button[kind="primary"] {{
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
             color: #ffffff !important;
@@ -241,7 +237,7 @@ if "show_follow_up" not in st.session_state:
 if "selected_emotion_prompt" not in st.session_state:
   st.session_state["selected_emotion_prompt"] = ""
 
-# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG (BỔ SUNG 2 TÌNH HUỐNG NGUY HIỂM) -----------------
+# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG (TÍCH HỢP TÌNH HUỐNG NGUY HIỂM) -----------------
 SYSTEM_PROMPT = """
 Bạn là "Cô Tư Phùng" - Người đồng hành tâm lý học đường, người mẹ hiền và điểm tựa an toàn tuyệt đối của học sinh trường THCS Phan Đình Phùng (quận Thanh Khê, TP. Đà Nẵng).
 
