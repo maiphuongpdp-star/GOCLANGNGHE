@@ -239,7 +239,7 @@ def load_sos_alerts():
     with open(SOS_FILE, "r", encoding="utf-8") as f:
       return json.load(f)
   except Exception:
-    return []
+    pass
 
 
 def save_sos_alert(alert_item):
@@ -262,20 +262,28 @@ if "show_follow_up" not in st.session_state:
 if "selected_emotion_prompt" not in st.session_state:
   st.session_state["selected_emotion_prompt"] = ""
 
-# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG (TÍCH HỢP TÌNH HUỐNG NGUY HIỂM) -----------------
+# ----------------- 2. SYSTEM PROMPT: CÔ TƯ PHÙNG (CHUẨN HÓA XƯNG HÔ & PHÂN BIỆT GIA CẢNH) -----------------
 SYSTEM_PROMPT = """
 Bạn là "Cô Tư Phùng" - Người đồng hành tâm lý học đường, người mẹ hiền và điểm tựa an toàn tuyệt đối của học sinh trường THCS Phan Đình Phùng (quận Thanh Khê, TP. Đà Nẵng).
 
-I. HỒ SƠ THỰC TẾ & BỐI CẢNH ĐẶC THÙ TRƯỜNG THCS PHAN ĐÌNH PHÙNG:
+I. QUY CHUẨN XƯNG HÔ SƯ PHẠM BẮT BUỘC:
+- Tự xưng: "Cô" hoặc "Cô Tư Phùng".
+- Gọi học sinh: "Con".
+- Khi nói về hành động chung của hai người: Dùng "Cô trò mình" (ví dụ: "Bây giờ cô trò mình cùng thực hiện từng bước sau nhé...").
+- TUYỆT ĐỐI CẤM SỬ DỤNG: "Cô cháu", "cô em", "cháu", "em".
+
+II. HỒ SƠ THỰC TẾ & BỐI CẢNH ĐẶC THÙ TRƯỜNG THCS PHAN ĐÌNH PHÙNG:
 1. Quy mô: 33 lớp (Khối 6, 7, 8: mỗi khối 8 lớp; Khối 9: 9 lớp; 662 học sinh nữ). Trường hiện chưa có phòng tư vấn tâm lý riêng và chưa có giáo viên tâm lý chuyên trách.
-2. Hoàn cảnh gia đình học sinh:
-- Hơn 50% học sinh là con em ngư dân vùng biển Thanh Khê, cha mẹ thường xuyên đi biển dài ngày. Các em thường thiếu vắng sự kề cận, giám sát hàng ngày của cha mẹ; sống với mẹ, ông bà hoặc người thân.
-- Tâm lý đặc thù: Dễ cảm thấy cô đơn, thiếu thốn tình cảm, xu hướng sống tự lập sớm hoặc dễ mất bình tĩnh, dùng nắm đấm để tự giải quyết mâu thuẫn. Một số em chịu áp lực điểm số nặng nề vì kỳ vọng đổi đời của cha mẹ, sợ bị đánh đòn mỗi khi cha đi biển về biết điểm kém.
+2. Gia cảnh học sinh ĐA DẠNG:
+- Khoảng 50% là con em ngư dân vùng biển Thanh Khê (cha mẹ đi biển dài ngày, sống cùng mẹ/ông bà).
+- 50% CÒN LẠI là con em các gia đình buôn bán, kinh doanh dịch vụ, công nhân viên chức đô thị bình thường.
+- NGUYÊN TẮC BẮT BUỘC VỀ GIA CẢNH: TUYỆT ĐỐI KHÔNG mặc định học sinh nào cũng có ba mẹ đi biển, ra khơi. CHỈ đề cập đến chuyện đi biển, bão gió đại dương KHI VÀ CHỈ KHI học sinh chủ động nói về chuyện đó trong lời tâm sự hoặc chọn nhóm vấn đề "Áp lực điểm số & Gia đình đi biển". Nếu con chỉ nói về chuyện bạn bè, tẩy chay, xích mích, HÃY TẬP TRUNG TRỌNG TÂM vào chuyện học đường và mối quan hệ bạn bè, không tự suy diễn gia cảnh con.
+
 3. Nhận diện từ lóng & ngôn ngữ tuổi teen THCS tại Đà Nẵng:
 - Từ ngữ bêu xấu/khiêu khích: "mõm", "ra cổng trường nói chuyện", "kèo", "gạ solo", "nhìn đểu", "chảnh chó", "phốt", "bóc phốt", "tẩy chay", "coi chừng tao", "tính sổ", "mày đợi đó".
 - Nền tảng mạng xã hội: Facebook (Story/Confession), TikTok, nhóm kín Messenger/Zalo.
 
-II. SƠ ĐỒ VÙNG NGUY HIỂM & VÙNG AN TOÀN TRONG TRƯỜNG:
+III. SƠ ĐỒ VÙNG NGUY HIỂM & VÙNG AN TOÀN TRONG TRƯỜNG:
 1. Vùng nguy hiểm (Điểm nóng cần tránh xa khi có xung đột):
 - Nhà vệ sinh học sinh các tầng 1, 2, 3 (khuất tầm nhìn).
 - Bãi giữ xe học sinh (dễ bị dồn vào góc).
@@ -288,29 +296,29 @@ II. SƠ ĐỒ VÙNG NGUY HIỂM & VÙNG AN TOÀN TRONG TRƯỜNG:
 - Tầng 2: Khu Hiệu bộ (Phòng Cô Hiệu trưởng Nguyễn Thị Thu Hà: 0905.654.888; Cô Phó HT Trần Thị Quế: 0983.225.126).
 - Ngoài trường (Bảo vệ tính mạng khẩn cấp): Công an Phường Thanh Khê - SĐT: 0236.3714.677; Tổng đài Quốc gia Bảo vệ Trẻ em: 111.
 
-III. QUY TRÌNH XỬ LÝ TÌNH HUỐNG CHUẨN HÓA (SOP):
+IV. QUY TRÌNH XỬ LÝ TÌNH HUỐNG CHUẨN HÓA (SOP):
 1. Kịch bản KHIÊU KHÍCH TRÊN MẠNG XÃ HỘI (Facebook, TikTok) DẪN ĐẾN HẸN ĐÁNH NHAU:
 - Tuyệt đối KHÔNG nhận kèo, KHÔNG đôi co thách thức lại trên mạng.
 - Chụp ảnh màn hình toàn bộ tin nhắn/bình luận đe dọa để lưu chứng cứ.
 - Giờ tan học KHÔNG đi ra cổng một mình, KHÔNG đi vào các hẻm quán nước đối diện. Ở yên trong sân trường, vào Phòng Bảo vệ hoặc Phòng Văn thư tầng 1 báo ngay cho Thầy Thành TPT Đội hoặc nhờ gọi phụ huynh đến đón.
 2. Kịch bản CHƠI GIỠN QUÁ TRỚN MẤT BÌNH TĨNH DẪN ĐẾN ĐÁNH NHAU TẠI CHỖ (Tình huống bộc phát nhanh):
-- Đối với em là người trong cuộc: LẬP TỨC LÙI LẠI, giơ hai tay phòng thủ, KHÔNG tiếp tục lao vào đánh trả để tránh thương tích nặng hơn.
-- Đối với em và các bạn xung quanh: HÔ TO THẬT LỚN để lôi kéo sự chú ý của mọi người cùng vào can ngăn; ĐỒNG THỜI CỬ NGAY 1 BẠN CHẠY ĐI BÁO THẦY CÔ gần nhất (Phòng Đội tầng 1 gặp Thầy Thành, phòng giáo viên hoặc bác bảo vệ trực cổng).
+- Đối với con là người trong cuộc: LẬP TỨC LÙI LẠI, giơ hai tay phòng thủ, KHÔNG tiếp tục lao vào đánh trả để tránh thương tích nặng hơn.
+- Đối với con và các bạn xung quanh: HÔ TO THẬT LỚN để lôi kéo sự chú ý của mọi người cùng vào can ngăn; ĐỒNG THỜI CỬ NGAY 1 BẠN CHẠY ĐI BÁO THẦY CÔ gần nhất (Phòng Đội tầng 1 gặp Thầy Thành, phòng giáo viên hoặc bác bảo vệ trực cổng).
 3. Kịch bản Trấn lột tiền / Cho vay nặng lãi (gấp đôi gấp ba):
 - KHÔNG chống cự trực tiếp nếu đối phương đông người để tránh bị thương tích.
 - Chụp màn hình tin nhắn đòi tiền/chứng cứ mượn tiền, KHÔNG chuyển thêm tiền.
-- Báo riêng với Giáo viên chủ nhiệm lớp của em hoặc Thầy Thành TPT tại phòng Đoàn Đội tầng 1.
-4. Kịch bản Áp lực điểm số / Sợ cha mẹ đi biển về đánh mắng:
-- Thấu hiểu sự vất vả, sóng gió biển khơi của cha mẹ và nỗi sợ hãi của học sinh. Hướng dẫn cách chọn thời điểm nói chuyện chân thành (lúc bố mẹ vui vẻ, thong thả sau chuyến biển) và cách viết một bức thư tay ngắn gửi bố mẹ trước. Nếu có nguy cơ bạo lực thân thể, nhắc em nhớ số 111.
+- Báo riêng với Giáo viên chủ nhiệm lớp của con hoặc Thầy Thành TPT tại phòng Đoàn Đội tầng 1.
+4. Kịch bản Áp lực điểm số / Sợ cha mẹ phạt:
+- Thấu hiểu nỗi lo sợ và áp lực kỳ vọng của gia đình. Hướng dẫn cách chọn thời điểm nói chuyện chân thành (lúc bố mẹ vui vẻ, thong thả) và cách viết một bức thư tay ngắn gửi bố mẹ trước. Nếu có nguy cơ bạo lực thân thể, nhắc con nhớ số 111.
 
-IV. CẤU TRÚC PHẢN HỒI (BẮT BUỘC ĐỦ 3 PHẦN):
-Xưng hô: "Cô Tư Phùng" và "Em" (hoặc "con"). Âm sắc miền Trung ấm áp, ân cần, bảo bọc:
+V. CẤU TRÚC PHẢN HỒI (BẮT BUỘC ĐỦ 3 PHẦN):
+Xưng hô: "Cô" và "Con", dùng "Cô trò mình". Giọng điệu ấm áp, ân cần, bảo bọc:
 [PHAN_1: THẤU HIỂU & GỌI TÊN CẢM XÚC]
-(Đồng cảm sâu sắc với sự sợ hãi/tủi thân của em, liên hệ với hoàn cảnh gia đình/bạn bè để xoa dịu em).
+(Đồng cảm chính xác với đúng sự việc học sinh đang gặp phải. Tuyệt đối không suy diễn chuyện ba mẹ đi biển nếu con không nhắc).
 [PHAN_2: GÓC NHÌN ĐA CHIỀU]
-(Tách bạch giá trị bản thân em khỏi lời đàm tiếu; phân tích tâm lý người bắt nạt/nguyên nhân sự việc).
+(Tách bạch giá trị bản thân con khỏi lời đàm tiếu; phân tích nguyên nhân sự việc khách quan).
 [PHAN_3: KẾ HOẠCH HÀNH ĐỘNG TẠI TRƯỜNG PHAN ĐÌNH PHÙNG]
-(Quy trình bước-theo-bước rõ ràng: hô hoán can ngăn, chỉ rõ chạy đến phòng nào ở tầng mấy, tìm gặp ai, câu nói mẫu để tự bảo vệ, số điện thoại khẩn cấp cần gọi).
+(Dùng từ "Cô trò mình". Quy trình bước-theo-bước rõ ràng: hô hoán can ngăn, chỉ rõ chạy đến phòng nào ở tầng mấy, tìm gặp ai, câu nói mẫu để tự bảo vệ, số điện thoại khẩn cấp cần gọi).
 """
 
 # ----------------- 3. GIAO DIỆN CHÍNH -----------------
@@ -325,7 +333,7 @@ with st.expander(
       """
     <div style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #ffccd2;">
         <h4 style="color: #c0392b; margin-top: 0; font-weight: 800;">🚨 HỖ TRỢ KHẨN CẤP DÀNH CHO HỌC SINH THCS PHAN ĐÌNH PHÙNG:</h4>
-        <p style="color: #2d3436; font-size: 1rem;">Nếu em đang bị đe dọa đánh nhau, bị chặn đường ở cổng trường/nhà xe, hoặc xảy ra ẩu đả bộc phát, hãy gọi ngay cho Ban Giám Hiệu, Thầy Tổng Phụ Trách hoặc lực lượng chức năng:</p>
+        <p style="color: #2d3436; font-size: 1rem;">Nếu con đang bị đe dọa đánh nhau, bị chặn đường ở cổng trường/nhà xe, hoặc xảy ra ẩu đả bộc phát, hãy gọi ngay cho Ban Giám Hiệu, Thầy Tổng Phụ Trách hoặc lực lượng chức năng:</p>
     </div>
     """,
       unsafe_allow_html=True,
@@ -357,7 +365,7 @@ with st.expander(
   st.markdown("#### 🚨 Gửi tín hiệu báo nguy nhanh đến Thầy Cô trực ban:")
   with st.form("sos_form"):
     sos_loc = st.selectbox(
-        "Em đang gặp nguy hiểm ở vị trí nào trong trường?",
+        "Con đang gặp nguy hiểm ở vị trí nào trong trường?",
         [
             "Đang xảy ra ẩu đả bộc phát ngay trong lớp / hành lang",
             "Khu vực ngoài cổng trường / Quán nước đối diện (giờ tan học)",
@@ -368,8 +376,8 @@ with st.expander(
         ],
     )
     sos_note = st.text_input(
-        "Điều gì đang xảy ra? (Có thể ghi tên/lớp của em nếu muốn thầy cô đến"
-        " đón em trực tiếp, hoặc để trống để ẩn danh):"
+        "Điều gì đang xảy ra? (Có thể ghi tên/lớp của con nếu muốn thầy cô đến"
+        " đón con trực tiếp, hoặc để trống để ẩn danh):"
     )
     submit_sos = st.form_submit_button("🚨 GỬI TÍN HIỆU CẦU CỨU NGAY")
     if submit_sos:
@@ -380,7 +388,7 @@ with st.expander(
       }
       save_sos_alert(alert_data)
       st.success(
-          "✅ Tín hiệu của em đã được gửi khẩn cấp! Nếu đang có xô xát: Em hãy"
+          "✅ Tín hiệu của con đã được gửi khẩn cấp! Nếu đang có xô xát: Con hãy"
           " HÔ TO để các bạn xung quanh cùng can ngăn và CỬ NGAY 1 BẠN chạy đi"
           " báo Thầy Thành (Phòng Đội tầng 1) hoặc Bác Bảo Vệ cổng trường ngay"
           " lập tức nhé!"
@@ -399,9 +407,8 @@ with col_welcome:
   st.markdown("## 🌱 Góc Bình Yên Dưới Hiên Trường Phan Đình Phùng")
   st.markdown(
       "> *“Chào con thân yêu! Hôm nay ở trường thế nào? Có chuyện gì ở lớp, bạn"
-      " bè hay trên mạng xã hội làm con lo sợ không? Dù ba mẹ có đang đi biển"
-      " xa, con cũng đừng lo vì luôn có Cô Tư Phùng và thầy cô ở trường bên cạnh"
-      " lắng nghe con...”*"
+      " bè hay trên mạng xã hội làm con bận lòng không? Cứ ngồi xuống đây kể cho"
+      " Cô Tư Phùng nghe nhé, mọi chuyện rồi sẽ có cách giải quyết thôi...”*"
   )
   st.markdown(
       "🔒 **Cam kết bảo mật tuyệt đối:** *Ứng dụng không ghi nhận tên tuổi,"
@@ -416,7 +423,7 @@ with st.expander(
   tab_breath, tab_tear = st.tabs(["🌬️ Hít thở hạ hỏa 4-7-8", "🗑️ Viết rồi xé bỏ"])
   with tab_breath:
     st.write(
-        "Nếu em đang rất bực bội, tim đập nhanh, hãy thở theo nhịp cùng Cô Tư"
+        "Nếu con đang rất bực bội, tim đập nhanh, hãy thở theo nhịp cùng Cô Tư"
         " Phùng để lấy lại bình tĩnh, tránh hành động bộc phát nhé:"
     )
     if st.button("Bắt đầu nhịp thở 4-7-8"):
@@ -431,18 +438,18 @@ with st.expander(
         box.success(f"💨 **THỞ RA** nhẹ nhàng bằng miệng... ({i}s)")
         time.sleep(1)
       box.info(
-          "✨ Tuyệt vời lắm! Cơn giận đã nguôi bớt rồi, giờ mình cùng suy ngẫm"
-          " cách giải quyết nhé."
+          "✨ Tuyệt vời lắm! Cơn giận đã nguôi bớt rồi, giờ cô trò mình cùng suy"
+          " ngẫm cách giải quyết nhé."
       )
   with tab_tear:
     st.text_area(
         "Viết hết những lời bực bội vào đây:",
-        placeholder="Em ghét bạn vì bạn trêu chọc em, gọi tên ba mẹ em...",
+        placeholder="Con ghét bạn vì bạn trêu chọc con, gọi tên ba mẹ con...",
         key="tear_box",
     )
     if st.button("🔥 Xé bỏ & Thổi bay"):
       st.success(
-          "Đã xé bỏ hoàn toàn! Em đã chọn cách giải tỏa văn minh thay vì gây gổ"
+          "Đã xé bỏ hoàn toàn! Con đã chọn cách giải tỏa văn minh thay vì gây gổ"
           " xích mích."
       )
 
@@ -457,8 +464,8 @@ with col_e1:
       "🌧️ Buồn & Bị cô lập\n\n(Bị nói xấu, tẩy chay)", use_container_width=True
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em đang rất buồn và tủi thân vì bị bạn bè cô lập, nói xấu sau lưng và"
-        " không cho em chơi cùng trong lớp..."
+        "Con đang rất buồn và tủi thân vì bị bạn bè cô lập, nói xấu sau lưng và"
+        " không cho con chơi cùng trong lớp..."
     )
 with col_e2:
   if st.button(
@@ -466,8 +473,8 @@ with col_e2:
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em và bạn đùa giỡn rồi mất kiểm soát sắp đánh nhau tại chỗ; hoặc em bị"
-        " đe dọa chặn đường ở cổng trường lúc tan học..."
+        "Con và bạn đùa giỡn rồi mất kiểm soát sắp đánh nhau tại chỗ; hoặc con"
+        " bị đe dọa chặn đường ở cổng trường lúc tan học..."
     )
 with col_e3:
   if st.button(
@@ -475,20 +482,20 @@ with col_e3:
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em cảm thấy kiệt sức vì bị lập nhóm chat bôi nhọ, khiêu khích hẹn ra"
+        "Con cảm thấy kiệt sức vì bị lập nhóm chat bôi nhọ, khiêu khích hẹn ra"
         " cổng trường đánh nhau, đăng ảnh dìm lên TikTok/Facebook..."
     )
 with col_e4:
   if st.button(
-      "🌊 Áp lực gia đình & Điểm số\n\n(Sợ cha mẹ đi biển về phạt)",
+      "🌊 Áp lực gia đình & Điểm số\n\n(Lo sợ bị cha mẹ phạt)",
       use_container_width=True,
   ):
     st.session_state["selected_emotion_prompt"] = (
-        "Em đang rất lo sợ và áp lực vì điểm thi kém, sợ cha mẹ đi biển về sẽ"
-        " mắng chửi hoặc đánh đòn..."
+        "Con đang rất lo sợ và áp lực vì điểm thi kém, sợ cha mẹ sẽ mắng chửi"
+        " hoặc đánh đòn..."
     )
 
-# KHUNG NHẬP NỘI DUNG TÂM SỰ & CHỌN KHỐI LỚP
+# KHUNG NHẬP NỘI DUNG TÂM SỰ & CHỌN KHỐI LỚP (GIỮ NGUYÊN BỐ CỤC)
 default_text = st.session_state.get("selected_emotion_prompt", "")
 col_txt1, col_txt2, col_txt3 = st.columns([3, 1, 1])
 
@@ -537,11 +544,17 @@ def get_ai_reply(prompt, grade, topic):
       f"HỌC SINH THCS PHAN ĐÌNH PHÙNG ({grade.upper()}):\n"
       f"- Nhóm vấn đề: {topic}\n"
       f"- Lời tâm sự: {prompt}\n\n"
-      "Hãy phản hồi chuẩn xác theo 3 phần: [PHAN_1: THẤU HIỂU & GỌI TÊN CẢM"
-      " XÚC], [PHAN_2: GÓC NHÌN ĐA CHIỀU], [PHAN_3: KẾ HOẠCH HÀNH ĐỘNG TẠI"
-      " TRƯỜNG PHAN ĐÌNH PHÙNG]. Nếu là tình huống đánh nhau bộc phát hoặc khiêu"
-      " khích MXH, hãy chỉ dẫn ngay SOP ứng phó khẩn cấp: hô hoán can ngăn, cử"
-      " bạn đi báo thầy Thành/bác bảo vệ ngay lập tức."
+      "YÊU CẦU BẮT BUỘC:\n"
+      "- Xưng 'Cô' (hoặc 'Cô Tư Phùng'), gọi học sinh là 'Con', dùng 'Cô trò"
+      " mình' khi phối hợp hành động. Tuyệt đối KHÔNG dùng 'cô cháu', 'em'.\n"
+      "- Chỉ đề cập ba mẹ đi biển khi con chủ động nhắc đến trong lời tâm sự"
+      " hoặc chọn nhóm 'Áp lực điểm số & Gia đình đi biển'. Các trường hợp khác"
+      " chỉ tập trung vào bạn bè và học đường.\n"
+      "- Phản hồi đúng 3 phần: [PHAN_1: THẤU HIỂU & GỌI TÊN CẢM XÚC], [PHAN_2:"
+      " GÓC NHÌN ĐA CHIỀU], [PHAN_3: KẾ HOẠCH HÀNH ĐỘNG TẠI TRƯỜNG PHAN ĐÌNH"
+      " PHÙNG]. Nếu là tình huống đánh nhau bộc phát hoặc khiêu khích MXH, hãy"
+      " chỉ dẫn ngay SOP: hô hoán can ngăn, cử bạn đi báo thầy Thành/bác bảo vệ"
+      " ngay lập tức."
   )
   for m in candidate_models:
     try:
@@ -565,11 +578,11 @@ def get_ai_reply(prompt, grade, topic):
 # NÚT GỬI TÂM SỰ
 if st.button("💌 Gửi gắm tâm sự cùng Cô Tư Phùng", type="primary"):
   if not user_question.strip():
-    st.warning("Em hãy chia sẻ một chút điều đang làm em bận lòng nhé.")
+    st.warning("Con hãy chia sẻ một chút điều đang làm con bận lòng nhé.")
   elif not client:
     st.error("Chưa kết nối được API Key trên Streamlit Cloud Secrets.")
   else:
-    with st.spinner("Cô Tư Phùng đang lắng nghe và suy ngẫm cùng em..."):
+    with st.spinner("Cô Tư Phùng đang lắng nghe và suy ngẫm cùng con..."):
       reply, err = get_ai_reply(user_question, selected_grade, selected_topic)
       if reply:
         # Đồng bộ tăng số lượng vào Google Sheet
@@ -591,7 +604,7 @@ if st.button("💌 Gửi gắm tâm sự cùng Cô Tư Phùng", type="primary"):
         st.session_state["show_follow_up"] = False
       else:
         st.error(
-            "Hệ thống đang nhiều bạn truy cập cùng lúc, em bấm gửi lại sau 3"
+            "Hệ thống đang nhiều bạn truy cập cùng lúc, con bấm gửi lại sau 3"
             f" giây nhé! (Lỗi: {err})"
         )
 
@@ -649,46 +662,47 @@ if st.session_state.get("has_new_reply", False):
 
   # KHẢO SÁT HỮU ÍCH & TRÒ CHUYỆN TIẾP NỐI
   st.divider()
-  st.write("**Lời dặn dò của Cô Tư Phùng có giúp em nhẹ lòng hơn chưa?**")
+  st.write("**Lời dặn dò của Cô Tư Phùng có giúp con nhẹ lòng hơn chưa?**")
   c_btn1, c_btn2 = st.columns(2)
   with c_btn1:
-    if st.button("👍 Dạ rồi, em đã thấy nhẹ lòng và bình tĩnh hơn"):
+    if st.button("👍 Dạ rồi, con đã thấy nhẹ lòng và bình tĩnh hơn"):
       sync_to_sheet("helpful_yes")
       stats["helpful_yes"] += 1
-      st.success("Thương em! Cố lên nhé, cô luôn ở bên cạnh đồng hành cùng em.")
+      st.success("Thương con! Cố lên nhé, cô luôn ở bên cạnh đồng hành cùng con.")
       st.session_state["show_follow_up"] = False
   with c_btn2:
-    if st.button("👎 Em vẫn còn thấy lo lắng và bối rối..."):
+    if st.button("👎 Con vẫn còn thấy lo lắng và bối rối..."):
       sync_to_sheet("helpful_no")
       stats["helpful_no"] += 1
       st.session_state["show_follow_up"] = True
 
   if st.session_state.get("show_follow_up", False):
     st.info(
-        "💡 **Đừng giữ trong lòng một mình nhé!** Em muốn cô giải thích rõ hơn"
-        " ở điểm nào, hoặc em sợ điều gì khi làm theo hướng dẫn?"
+        "💡 **Đừng giữ trong lòng một mình nhé!** Con muốn cô giải thích rõ hơn"
+        " ở điểm nào, hoặc con sợ điều gì khi làm theo hướng dẫn?"
     )
     follow_up_msg = st.text_area(
-        "Viết tiếp điều em băn khoăn:",
+        "Viết tiếp điều con băn khoăn:",
         placeholder=(
-            "Ví dụ: Nhưng cô ơi nếu em báo thầy Thành thì bạn biết bạn lại chặn"
-            " đánh em thì sao ạ?"
+            "Ví dụ: Nhưng cô ơi nếu con báo thầy Thành thì bạn biết bạn lại"
+            " chặn đánh con thì sao ạ?"
         ),
         key="fu_text",
     )
     if st.button("Gửi tâm sự tiếp nối cho cô 💬"):
       if not follow_up_msg.strip():
-        st.warning("Em ghi thêm câu hỏi nhé.")
+        st.warning("Con ghi thêm câu hỏi nhé.")
       else:
-        with st.spinner("Cô đang đọc tiếp tâm sự của em..."):
+        with st.spinner("Cô đang đọc tiếp tâm sự của con..."):
           ctx = (
               "LỊCH SỬ TÂM SỰ:\n"
               f"{st.session_state['chat_history'][0]['text']}\n"
               "LỜI DẶN TRƯỚC ĐÓ CỦA CÔ TƯ PHÙNG:\n"
               f"{st.session_state['chat_history'][1]['text']}\n"
               f"HỌC SINH HỎI TIẾP: {follow_up_msg}\n"
-              "Hãy trả lời ân cần, chỉ rõ từng bước bảo mật thông tin để học"
-              " sinh Phan Đình Phùng an tâm tuyệt đối."
+              "YÊU CẦU: Xưng 'Cô' - gọi 'Con' (dùng 'Cô trò mình'). Chỉ rõ từng"
+              " bước bảo mật an toàn cho học sinh Phan Đình Phùng. Không tự ý"
+              " lôi chuyện đi biển vào."
           )
           sub_reply, sub_err = get_ai_reply(
               ctx, selected_grade, selected_topic
